@@ -1,0 +1,904 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "firstName": "יוסף",
+      "lastName": "כהן",
+      "idNumber": "123456789",
+      "email": "yosef.cohen@gmail.com",
+      "password": "pass1234",
+      "isAdmin": true
+    },
+    {
+      "id": "2",
+      "firstName": "משה",
+      "lastName": "לוי",
+      "idNumber": "234567890",
+      "email": "moshe.levi@gmail.com",
+      "password": "moshe5678",
+      "isAdmin": false
+    },
+    {
+      "id": "3",
+      "firstName": "אברהם",
+      "lastName": "מזרחי",
+      "idNumber": "345678901",
+      "email": "avraham.m@gmail.com",
+      "password": "avraham99",
+      "isAdmin": false
+    },
+    {
+      "id": "4",
+      "firstName": "דוד",
+      "lastName": "פרץ",
+      "idNumber": "456789012",
+      "email": "david.peretz@walla.com",
+      "password": "david2024",
+      "isAdmin": true
+    },
+    {
+      "id": "5",
+      "firstName": "שלמה",
+      "lastName": "אברמוב",
+      "idNumber": "567890123",
+      "email": "shlomo.abr@gmail.com",
+      "password": "shlomo77",
+      "isAdmin": false
+    },
+    {
+      "id": "6",
+      "firstName": "יצחק",
+      "lastName": "גולן",
+      "idNumber": "678901234",
+      "email": "yitzhak.g@gmail.com",
+      "password": "yitz2025",
+      "isAdmin": false
+    },
+    {
+      "id": "7",
+      "firstName": "אליהו",
+      "lastName": "בן דוד",
+      "idNumber": "789012345",
+      "email": "elihu.bd@gmail.com",
+      "password": "elihu321",
+      "isAdmin": true
+    },
+    {
+      "id": "8",
+      "firstName": "יעקב",
+      "lastName": "שפירא",
+      "idNumber": "890123456",
+      "email": "yaakov.sh@gmail.com",
+      "password": "yaakov88",
+      "isAdmin": false
+    },
+    {
+      "id": "9",
+      "firstName": "נחום",
+      "lastName": "ביטון",
+      "idNumber": "901234567",
+      "email": "nahum.b@gmail.com",
+      "password": "nahum456",
+      "isAdmin": false
+    },
+    {
+      "id": "10",
+      "firstName": "ראובן",
+      "lastName": "חדד",
+      "idNumber": "012345678",
+      "email": "reuven.h@gmail.com",
+      "password": "reuven11",
+      "isAdmin": false
+    },
+    {
+      "firstName": "צפורה",
+      "lastName": "יעקבי",
+      "idNumber": "031933708",
+      "email": "6021613@gmail.com",
+      "password": "xhxnvtnt",
+      "isAdmin": true,
+      "id": "Uiw9LYFpo9M"
+    },
+    {
+      "firstName": "תמר",
+      "lastName": "יעקבי",
+      "idNumber": "216234807",
+      "email": "t3232853@gmail.com",
+      "password": "סיסמהתמר",
+      "isAdmin": true,
+      "id": "XMBkUOcC19I"
+    },
+    {
+      "firstName": "אפרת ",
+      "lastName": "כהן",
+      "idNumber": "222222222",
+      "email": "efrat@gmail.com",
+      "password": "efrat@gmail.com",
+      "isAdmin": false,
+      "id": "U4mhS-C4xV0"
+    },
+    {
+      "firstName": "צפורה",
+      "lastName": "יעקבי",
+      "idNumber": "031933708",
+      "email": "t3@gmail.com",
+      "password": "סיס5555555",
+      "isAdmin": false,
+      "id": "wVOsA0WHS9A"
+    },
+    {
+      "firstName": "רחל",
+      "lastName": "לוי",
+      "idNumber": "222222777",
+      "email": "853@gmail.com",
+      "password": "רחללוי111",
+      "isAdmin": false,
+      "id": "L3-Dz3D"
+    },
+    {
+      "firstName": "ללי",
+      "lastName": "חחח",
+      "idNumber": "888888888",
+      "email": "85185285@gmail.com",
+      "password": "ddddddddddddddddddd",
+      "isAdmin": false,
+      "id": "SJ2Y-u2"
+    },
+    {
+      "firstName": "שרה",
+      "lastName": "קין",
+      "idNumber": "123456789",
+      "email": "123456789@gmail.com",
+      "password": "123456789",
+      "isAdmin": false,
+      "id": "1pv5HsK"
+    },
+    {
+      "firstName": "shany",
+      "lastName": "cohen",
+      "idNumber": "318410172",
+      "email": "shany6881@gmail.com",
+      "password": "12345678",
+      "isAdmin": false,
+      "id": "gDLl27e"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "רכב אטרקציות",
+      "nameInEnglish": "AttractionVehicles"
+    },
+    {
+      "id": "2",
+      "name": "רכבי אספנות",
+      "nameInEnglish": "CollectorVehicles"
+    },
+    {
+      "id": "3",
+      "name": "רכבי יוקרה",
+      "nameInEnglish": "luxuryVehicles"
+    }
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "name": "Mercedes"
+    },
+    {
+      "id": "2",
+      "name": "BMW"
+    },
+    {
+      "id": "3",
+      "name": "Audi"
+    },
+    {
+      "id": "4",
+      "name": "Porsche"
+    },
+    {
+      "id": "5",
+      "name": "Jeep"
+    },
+    {
+      "id": "6",
+      "name": "Range Rover"
+    },
+    {
+      "id": "7",
+      "name": "Jaguar"
+    },
+    {
+      "id": "8",
+      "name": "Maserati"
+    },
+    {
+      "id": "9",
+      "name": "Cadillac"
+    },
+    {
+      "id": "10",
+      "name": "Ferrari"
+    },
+    {
+      "id": "11",
+      "name": "Ford"
+    },
+    {
+      "id": "12",
+      "name": "Chevrolet"
+    },
+    {
+      "id": "13",
+      "name": "Lamborghini"
+    },
+    {
+      "id": "14",
+      "name": "Volkswagen"
+    },
+    {
+      "id": "15",
+      "name": "Polaris"
+    },
+    {
+      "id": "16",
+      "name": "Pontiac"
+    },
+    {
+      "id": "17",
+      "name": "Citroen"
+    },
+    {
+      "id": "18",
+      "name": "Willys"
+    }
+  ],
+  "cars": [
+    {
+      "id": "11",
+      "categoryId": "3",
+      "companyId": "4",
+      "seats": 5,
+      "description": "פורשה מקאן – SUV ספורטיבי קומפקטי עם ביצועים של רכב ספורט. מנוע טורבו חזק, תגובתיות גבוהה ועיצוב ייחודי שמושך תשומת לב.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/04/Porsche-Macan-1-800x531.jpg"
+    },
+    {
+      "id": "12",
+      "categoryId": "3",
+      "companyId": "6",
+      "seats": 5,
+      "description": "ריינג' רובר ספורט 5.5 – SUV יוקרתי עם יכולות שטח מרשימות ופנים מפואר. מנוע V8 חזק, ריפוד עור פרמיום ומערכות ניווט ובטיחות מתקדמות.",
+      "year": 2022,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/03/Range-Rover-Sport-1-800x531.jpg"
+    },
+    {
+      "id": "13",
+      "categoryId": "1",
+      "companyId": "5",
+      "seats": 4,
+      "description": "ג'יפ רנגלר – אייקון של עולם השטח. מרכב בוקס קלאסי עם ראש פתוח, יכולות שטח בלתי מוגבלות ואופי הרפתקני. מושלם לטיולי שטח ואטרקציות טבע.",
+      "year": 2022,
+      "imageUrl": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800"
+    },
+    {
+      "id": "14",
+      "categoryId": "1",
+      "companyId": "4",
+      "seats": 2,
+      "description": " רכב ספורט אגדי שנראה בייתו אפילו בנופי שלג מושלמים.  הילוכים ידנית ועיצוב אייקוני שמתאים גם לכביש הרים מושלג וגם למסלול. חוויית נהיגה ייחודית לאוהבי אדרנלין ונופים עוצרי נשימה.",
+      "year": 2022,
+      "imageUrl": "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800"
+    },
+    {
+      "id": "15",
+      "categoryId": "1",
+      "companyId": "10",
+      "seats": 2,
+      "description": "פרארי F8 טריבוטו – סופרקאר איטלקי עם מנוע V8 טורבו של 710 כ\"ס. עיצוב מרהיב, ביצועים על-אנושיים ומדבקת היוקרה המשכרת של פרארי.",
+      "year": 2021,
+      "imageUrl": "https://images.unsplash.com/photo-1592853625597-7d17be820d0c?w=800"
+    },
+    {
+      "id": "16",
+      "categoryId": "1",
+      "companyId": "8",
+      "seats": 4,
+      "description": "מזרטי גרנטוריזמו – GT איטלקי עם מנוע V6 נפלא וצליל ייחודי. עיצוב קלאסי מרהיב, ריפוד עור איטלקי מובחר ונסיעה שמשלבת ספורטיביות ויוקרה.",
+      "year": 2023,
+      "imageUrl": "https://www.car4us.co.il/wp-content/uploads/2020/10/IMG-20201018-WA0006.jpg"
+    },
+    {
+      "id": "17",
+      "categoryId": "1",
+      "companyId": "9",
+      "seats": 5,
+      "description": "קדילק אסקאלייד – SUV אמריקאי ענק עם נוכחות דרמטית. פנים מפואר עם מסכים ענקיים, מושבי מסאז', מערכת סאונד פרמיום ונסיעה שקטה ויציבה.",
+      "year": 2023,
+      "imageUrl": "https://www.picshare.co.il/s_pictures/img146958.jpg"
+    },
+    {
+      "id": "18",
+      "categoryId": "2",
+      "companyId": "11",
+      "seats": 2,
+      "description": "פורד ת'אנדרבירד קלאסית 1956 – אייקון אמריקאי נדיר משנות ה-50 עם כנפיים אחוריות בולטות, גימורי כרום מבריקים ועיצוב קלאסי. מושלמת לאירועים וצילומים נוסטלגיים.",
+      "year": 1956,
+      "imageUrl": "https://autoretro.co.il/wp-content/uploads/2023/08/%D7%A4%D7%95%D7%A8%D7%93-%D7%AA%D7%90%D7%A0%D7%93%D7%A8%D7%91%D7%99%D7%A8%D7%93-56-9.jpg"
+    },
+    {
+      "id": "19",
+      "categoryId": "2",
+      "companyId": "12",
+      "seats": 5,
+      "description": "שברולט בל אייר 1957 – מכונית האספנות המפורסמת ביותר של תור הזהב האמריקאי. מרכב מרהיב בשני צבעים (טו-טון), ספסלים רחבים ומראה וינטג' הוליוודי בלתי נשכח.",
+      "year": 1957,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2a/57_Chevy_BelAir.jpg"
+    },
+    {
+      "id": "20",
+      "categoryId": "2",
+      "companyId": "14",
+      "seats": 4,
+      "description": "פולקסווגן חיפושית קלאסית – הרכב הנוסטלגי והאהוב בעיצובו העגול והמוכר. שמורה בקפידה במצב מקורי, מוסיפה צבע, חיוך ואווירת רטרו ייחודית לכל אירוע.",
+      "year": 1974,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/1961Beetle.jpg"
+    },
+    {
+      "id": "21",
+      "categoryId": "2",
+      "companyId": "9",
+      "seats": 6,
+      "description": "קדילאק אלדורדו 1959 – ספינת הדגל האมריקאית הגדולה והמפוארת ביותר. בעלת סנפירי זנב ענקיים ופנסי 'טיל' אייקוניים. חוויית נסיעה מלכותית של פעם.",
+      "year": 1959,
+      "imageUrl": "https://erclassics.b-cdn.net/media/catalog/product/cache/2/image/700x/17f82f742ffe127f42dca9de82fb58b1/c/2/c2527_canvas.jpg"
+    },
+    {
+      "id": "22",
+      "categoryId": "2",
+      "companyId": "16",
+      "seats": 5,
+      "description": "פונטיאק צ'יפטיין 1954 – רכב אספנות נדיר ומאסיבי משנות החמישים המוקדמות. גריל ניקל קלאסי ענק, קווים עגולים וכבדים ומראה רטרו אמיתי יוצא דופן.",
+      "year": 1954,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Pontiac_Convertible_1955.jpg/500px-Pontiac_Convertible_1955.jpg"
+    },
+    {
+      "id": "23",
+      "categoryId": "2",
+      "companyId": "17",
+      "seats": 4,
+      "description": "סיטרואן טראקסיון אוואנט – רכב אספנות אירופאי קלאסי ויוקרתי מתקופת שנות ה-40 וה-50. עיצוב אלגנטי עם כנפיים רחבות ופנסי חזית נפרדים ומודגשים.",
+      "year": 1952,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Traction_11_BL_1950.jpg"
+    },
+    {
+      "id": "24",
+      "categoryId": "2",
+      "companyId": "1",
+      "seats": 5,
+      "description": "מרצדס 'פונטון' קלאסית 1958 – פאר גרמני נוסטלגי משנות ה-50. קווים מעוגלים ואלגנטיים, עיטורי עץ וניקל פנימיים, ומראה קלאסי אצילי המתאים במיוחד לחתונות.",
+      "year": 1958,
+      "imageUrl": "https://erclassics.b-cdn.net/media/catalog/product/cache/2/thumbnail/1920x/17f82f742ffe127f42dca9de82fb58b1/m/e/mercedes-benz-190-ponton-1959-m2432-054.jpg"
+    },
+    {
+      "id": "25",
+      "categoryId": "2",
+      "companyId": "18",
+      "seats": 4,
+      "description": "ויליס ג'יפסטר 1948 – רכב אספנות פתוח ונדיר ביותר, שילוב של ג'יפ היסטורי ומכונית נוסעים ספורטיבית משנות ה-40. מראה שטח-רטרו קלאסי ויוצא דופן.",
+      "year": 1948,
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/1956_Willys_Overlander_%2817484288021%29.jpg/500px-1956_Willys_Overlander_%2817484288021%29.jpg"
+    },
+    {
+      "id": "26",
+      "categoryId": "3",
+      "companyId": "4",
+      "seats": 4,
+      "description": "פורשה פנאמרה – GT יוקרתי עם 4 דלתות ו-4 מושבים. ביצועי ספורט אמיתיים עם נוחות סדאן פרמיום. מנוע V8 טורבו, הנעה כל-גלגלית ועיצוב ספורטיבי.",
+      "year": 2022,
+      "imageUrl": "https://images.unsplash.com/photo-1570733577524-3a047079e80d?w=800"
+    },
+    {
+      "id": "27",
+      "categoryId": "3",
+      "companyId": "6",
+      "seats": 5,
+      "description": "ריינג' רובר ווג – הגרסה המפוארת ביותר. מנוע V8 חזק, ריפוד עור מעולה, מערכות שטח מתקדמות ומושבים מחוממים ומקוררים לחוויה מלכותית.",
+      "year": 2023,
+      "imageUrl": "https://images.unsplash.com/photo-1626072778346-0ab6604d39c4?w=800"
+    },
+    {
+      "id": "28",
+      "categoryId": "3",
+      "companyId": "7",
+      "seats": 5,
+      "description": "יגואר F-Pace – SUV ספורטיבי בריטי עם מנוע V6, עיצוב חד ואלגנטי. טכנולוגיה חדישה, פנים מרהיב ורמת נוחות גבוהה לנסיעות ארוכות.",
+      "year": 2022,
+      "imageUrl": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800"
+    },
+    {
+      "id": "29",
+      "categoryId": "3",
+      "companyId": "8",
+      "seats": 5,
+      "description": "מזרטי גרקאלה – SUV יוקרתי עם אופי ספורטיבי ואיטלקי. מנוע V6 נשמע נהדר, עיצוב ייחודי ורמת ריפוד פרמיום. עוצמה, עיצוב ויוקרה מאוחדים.",
+      "year": 2022,
+      "imageUrl": "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800"
+    },
+    {
+      "id": "30",
+      "categoryId": "3",
+      "companyId": "9",
+      "seats": 5,
+      "description": "קדילק CT6 – סדאן יוקרתי אמריקאי עם טכנולוגיה מרשימה. מערכת Super Cruise לנהיגה חצי-אוטונומית, מסך מגע ענק ומערכת סאונד Bose פרמיום.",
+      "year": 2021,
+      "imageUrl": "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800"
+    },
+    {
+      "id": "31",
+      "categoryId": "1",
+      "companyId": "5",
+      "seats": 5,
+      "description": "ג'יפ גרנד צ'רוקי SRT – גרסת הביצועים של הגרנד צ'רוקי. מנוע V8 HEMI של 475 כ\"ס, מתלים ספורטיביים ובלמי ברמבו. עוצמת כביש ושטח ייחודית.",
+      "year": 2022,
+      "imageUrl": "https://www.picshare.co.il/s_pictures/img68657.jpg"
+    },
+    {
+      "id": "32",
+      "categoryId": "1",
+      "companyId": "4",
+      "seats": 4,
+      "description": "פורשה קיין GTS – SUV ספורטיבי עם ביצועים של מכונית ספורט. מנוע V6 טורבו, מתלי אוויר מונמכים ומצב ספורט פלוס לחובבי אדרנלין מושבעים.",
+      "year": 2023,
+      "imageUrl": "https://www.car4us.co.il/wp-content/uploads/2020/10/IMG-20201018-WA0015.jpg"
+    },
+    {
+      "id": "33",
+      "categoryId": "1",
+      "companyId": "2",
+      "seats": 4,
+      "description": "BMW M3 Competition – סדאן ספורטי-אגרסיבי עם מנוע של 510 כ\"ס. הנעה אחורית טהורה, תיבת הילוכים חצי אוטומטית ומתלים מכוונים למסלול.",
+      "year": 2023,
+      "imageUrl": "https://www.picshare.co.il/s_pictures/img54385.jpg"
+    },
+    {
+      "id": "35",
+      "categoryId": "2",
+      "companyId": "11",
+      "seats": 4,
+      "description": "פורד מוסטנג פסטבק 1967 – מכונית השרירים האמריקאית האגדית בגרסת פסטבק. עיצוב ספורטיבי ונוסטלגי קשוח, צליל מנוע קלאסי ומראה מנצח שמסובב ראשים.",
+      "year": 1967,
+      "imageUrl": "https://erclassics.b-cdn.net/media/catalog/product/cache/2/image/700x/17f82f742ffe127f42dca9de82fb58b1/f/o/ford-mustang-fastback-1965-f8187-037.jpg"
+    },
+    {
+      "id": "36",
+      "categoryId": "2",
+      "companyId": "4",
+      "seats": 2,
+      "description": "פורשה 356 קלאסית – רכב אספנות נדיר ויוצא דופן מבית פורשה. קווים מעוגלים ומינימליסטיים, יצירת אמנות היסטורית המושכת תשומת לב בכל אירוע.",
+      "year": 1957,
+      "imageUrl": "https://erclassics.b-cdn.net/media/catalog/product/cache/2/thumbnail/1920x/17f82f742ffe127f42dca9de82fb58b1/p/o/porsche-356-1961-p5841-1-039.jpg"
+    },
+    {
+      "id": "37",
+      "categoryId": "2",
+      "companyId": "1",
+      "seats": 4,
+      "description": "מרצדס W123 משנת 1980 – מכונית הסדאן הקלאסית והאלגנטית. מראה רטרו מובהק, נוחות נסיעה של פעם ועמידות אגדית שהפכה אותה לפריט אספנות מוערך.",
+      "year": 1980,
+      "imageUrl": "https://www.mercedes-benz.com/assets/innovation/milestones/w-123/mercedes-benz-type-300-d-turbodiesel-us-version-model-year-1981-master16x9.jpg"
+    },
+    {
+      "id": "38",
+      "categoryId": "3",
+      "companyId": "3",
+      "seats": 5,
+      "description": "אודי RS6 אוואנט – סטיישן ספורטיבי קיצוני עם מנוע V8 של 600 כ\"ס. מרחב פנימי עצום עם ביצועי סופרקאר מטורפים.",
+      "year": 2023,
+      "imageUrl": "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800"
+    },
+    {
+      "id": "39",
+      "categoryId": "3",
+      "companyId": "2",
+      "seats": 5,
+      "description": "BMW 530i – סדאן ביצועים אלגנטי מסדרה 5 עם מנוע טורבו חזק, התנהגות כביש מרשימה ופנים עשיר בחידושים טכנולוגיים רבים.",
+      "year": 2022,
+      "imageUrl": "https://scene7.toyota.eu/is/image/toyotaeurope/RZ0189a_23-2?wid=1280&fit=fit,1&ts=0&resMode=sharp2&op_usm=1.75,0.3,2,0"
+    },
+    {
+      "id": "40",
+      "categoryId": "3",
+      "companyId": "6",
+      "seats": 5,
+      "description": "ריינג' רובר ספורט SVR – הגרסה הקיצונית של דגם הספורט עם מנוע מוגדש V8 של 575 כ\"ס. מהיר בצורה יוצאת דופן עם כל הפאר של המותג הבריטי.",
+      "year": 2021,
+      "imageUrl": "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800"
+    },
+    {
+      "id": "41",
+      "categoryId": "1",
+      "companyId": "10",
+      "seats": 2,
+      "description": "פרארי SF90 סטרדלה – היברידית קיצונית עם כוח משולב של 1000 כ\"ס. זינוק מ-0 ל-100 ב-2.5 שניות בלבד. הרכב המתקדם ביותר של פרארי לכביש.",
+      "year": 2022,
+      "imageUrl": "https://www.picshare.co.il/m_pictures/img81945.jpg"
+    },
+    {
+      "id": "42",
+      "categoryId": "2",
+      "companyId": "2",
+      "seats": 2,
+      "description": "BMW רודסטר קלאסית 1957 – רכב פתוח נדיר ביותר בעיצוב רטרו יפהפה משנות החמישים. פריט אספנות יוקרתי עם ערך היסטורי עצום ומראה שאין שני לו.",
+      "year": 1957,
+      "imageUrl": "https://d3m9l0v76dty0.cloudfront.net/system/photos/12521551/large/5c92aebcd5123728d1c13a1ebff67d63.jpg"
+    },
+    {
+      "id": "43",
+      "categoryId": "1",
+      "companyId": "8",
+      "seats": 4,
+      "description": "מזרטי MC20 – סופרקאר איטלקי חדשני עם מנוע טורבו כפול המפיק 630 כ\"ס. עיצוב אווירודינמי מרהיב ואופי מסלול עצמתי ופראי.",
+      "year": 2023,
+      "imageUrl": "https://www.carpainting.co.il/wp-content/uploads/Nano-Ceramic1.jpg"
+    },
+    {
+      "id": "44",
+      "categoryId": "2",
+      "companyId": "7",
+      "seats": 4,
+      "description": "יגואר קלאסית 1985 – מכונית סדאן בריטית מפוארת מהדור הישן. שילוב של עץ וריפודי רטרו קלאסיים, חוויית נסיעה מלכותית וייחודית לכל אירוע.",
+      "year": 1985,
+      "imageUrl": "https://ushopsmotors.co.il/wp-content/uploads/2015/06/Porche-a1-570x428.jpg"
+    },
+    {
+      "id": "45",
+      "categoryId": "3",
+      "companyId": "13",
+      "seats": 2,
+      "description": "למבורגיני הורקאן EVO – רכב על איטלקי יוקרתי, מנוע V10 אטמוספרי עצמתי, עיצוב עתידני חסר פשרות וחווית נהיגה ממכרת וקולנית במיוחד.",
+      "year": 2023,
+      "imageUrl": "https://images.unsplash.com/photo-1621135802920-133df287f89c?w=800"
+    },
+    {
+      "id": "46",
+      "categoryId": "2",
+      "companyId": "14",
+      "seats": 4,
+      "description": "פולקסווגן חיפושית קבריולה 1973 – רכב אספנות מתוק בצבע תכלת שמיים נוסטלגי. גג נפתח, עיצוב מעוגל קלאסי ומצב מכני וקוסמטי מושלם לצילומים ואירועים.",
+      "year": 1973,
+      "imageUrl": "https://erclassics.b-cdn.net/media/catalog/product/cache/2/image/700x/17f82f742ffe127f42dca9de82fb58b1/v/o/volkswagen-beetle-cabriolet-1979-v7512-1-037.jpg"
+    },
+    {
+      "id": "47",
+      "categoryId": "2",
+      "companyId": "14",
+      "seats": 4,
+      "description": "פולקסווגן חיפושית צהובה 1968 – החיפושית האייקונית בצבע צהוב בננה משגע. משופצת ברמה הגבוהה ביותר, מושכת מבטים ואידיאלית לחוויות נסיעה ייחודיות וצבעוניות.",
+      "year": 1968,
+      "imageUrl": "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800"
+    },
+    {
+      "id": "48",
+      "categoryId": "1",
+      "companyId": "15",
+      "seats": 2,
+      "description": "פולאריס רייזר RZR XP – רכב שטח אטרקטיבי ומטורף לחלוטין. מנוע טורבו חזק, מתלי שטח קיצוניים, פתוח לרווחה ובנוי לכיבוש דיונות ומסלולים מאתגרים.",
+      "year": 2023,
+      "imageUrl": "https://sharonski.co.il/wp-content/uploads/2026/02/%D7%94%D7%92%D7%A2%D7%94-%D7%A2%D7%9D-%D7%A8%D7%9B%D7%91-%D7%A1%D7%98%D7%99%D7%99%D7%A9%D7%9F-%D7%9C%D7%90%D7%AA%D7%A8-%D7%A1%D7%A7%D7%99-%D7%91%D7%90%D7%95%D7%A1%D7%98%D7%A8%D7%99%D7%94-650x377.png"
+    },
+    {
+      "id": "1",
+      "categoryId": "3",
+      "companyId": "1",
+      "seats": 5,
+      "description": "מרצדס GLE – רכב SUV יוקרתי עם ביצועים גבוהים, סלון מפואר עם ריפוד עור, מערכת ניווט מתקדמת ומערכות בטיחות חדישות. אידיאלי לנסיעות עסקיות ואירועים.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/04/Mercedes-GLE-1-800x531.jpg"
+    },
+    {
+      "id": "2",
+      "categoryId": "3",
+      "companyId": "1",
+      "seats": 5,
+      "description": "מרצדס GLC 300 – קרוסאובר יוקרתי עם מנוע חזק, עיצוב אלגנטי ומערכת מולטימדיה MBUX. מתאים לנהיגה עירונית ובין-עירונית ברמה הגבוהה ביותר.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/04/Mercedes-GLC-300-1-800x531.jpg"
+    },
+    {
+      "id": "3",
+      "categoryId": "3",
+      "companyId": "1",
+      "seats": 5,
+      "description": "מרצדס S500 – ליגת העל של רכבי הסדאן. ריפוד עור פרמיום, שקט בנסיעה, מערכת הנעה מתקדמת ורמת נוחות בלתי מתפשרת. הרכב המועדף של אנשי עסקים.",
+      "year": 2022,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/04/Mercedes-S-Class-1-800x531.jpg"
+    },
+    {
+      "id": "4",
+      "categoryId": "3",
+      "companyId": "1",
+      "seats": 5,
+      "description": "מרצדס GLC AMG – גרסת הספורט של ה-GLC עם טיפול AMG, מנוע טורבו, בלמים ספורטיביים ועיצוב אגרסיבי. עוצמה ויוקרה בחבילה אחת.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/04/Mercedes-GLC-1-800x531.jpg"
+    },
+    {
+      "id": "5",
+      "categoryId": "3",
+      "companyId": "1",
+      "seats": 7,
+      "description": "מרצדס קלאס V – מינוואן יוקרתי amb 7 מקומות ישיבה פנורמיים. מושלם להסעת משפחות וקבוצות ברמה גבוהה, עם שפע של אביזרים ומערכות בידור.",
+      "year": 2022,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/04/Mercedes-Class-V-1-800x531.jpg"
+    },
+    {
+      "id": "6",
+      "categoryId": "3",
+      "companyId": "2",
+      "seats": 5,
+      "description": "BMW 750 – סדאן ייצוגי עם מנוע 6 ליטר V12, אביזרי יוקרה ברמה הגבוהה ביותר, מערכת ניווט ובידור מתקדמת וביצועים יוצאי דופן על הכביש.",
+      "year": 2022,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/03/BMW-750-1-800x531.jpg"
+    },
+    {
+      "id": "7",
+      "categoryId": "3",
+      "companyId": "2",
+      "seats": 5,
+      "description": "BMW X5 – SUV ספורטיבי עם יכולות שטח ורמת נוחות פרמיום. מנוע דיזל חזק, עיצוב דינמי ומערכות בטיחות חדישות. פופולרי ביותר בקרב משפחות ואנשי עסקים.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/03/BMW-X5-1-1-800x531.jpg"
+    },
+    {
+      "id": "8",
+      "categoryId": "3",
+      "companyId": "2",
+      "seats": 5,
+      "description": "BMW X6 – קופה-SUV עם עיצוב ייחודי ואגרסיבי. שילוב בין רכב ספורט לבין SUV יוקרתי, עם ביצועים גבוהים ואביזרים ברמה הגבוהה ביותר.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/03/BMW-X6-1-800x531.jpg"
+    },
+    {
+      "id": "9",
+      "categoryId": "3",
+      "companyId": "3",
+      "seats": 5,
+      "description": "אודי A8 – סדאן יוקרתי מהשורה הראשונה עם הנעה quattro, עיצוב פנימי מרהיב, מסכי מגע בסלון ומערכת סאונד Bang & Olufsen. רכב ייצוגי בכל מצב.",
+      "year": 2022,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/03/Audi-A8-1-1-800x531.jpg"
+    },
+    {
+      "id": "10",
+      "categoryId": "3",
+      "companyId": "3",
+      "seats": 7,
+      "description": "אודי Q7 – SUV מרחבי עם 7 מושבים, הנעה quattro ומנוע דיזל חזק. פנים מפואר, מערכות בטיחות מתקדמות ורמת נוחות גבוהה לכל הנוסעים.",
+      "year": 2023,
+      "imageUrl": "https://www.diamondcar.co.il/wp-content/uploads/2023/03/Audi-Q7-1-1-1-800x531.jpg"
+    },
+    {
+      "categoryId": "2",
+      "companyId": "1",
+      "seats": 5,
+      "description": "יפה מאוד וחצתיך",
+      "year": 2025,
+      "imageUrl": "https://www.luxurycarrental.co.il/upload/%D7%90%D7%A1%D7%A4%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%AA%D7%95%D7%A0%D7%94/%D7%9E%D7%97%D7%99%D7%A8%D7%99%20%D7%A8%D7%9B%D7%91%D7%99%20%D7%90%D7%A1%D7%A4%D7%A0%D7%95%D7%AA.jpeg",
+      "id": "9L9EoF_"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "carId": "3",
+      "userId": "4",
+      "description": "S500 הוא הגדרה של יוקרה. כל פרט מושלם, מהמנוע עד לריפוד.",
+      "rating": 5
+    },
+    {
+      "id": "2",
+      "carId": "4",
+      "userId": "5",
+      "description": "AMG GLC מדהים. עוצמה עצומה ואגרסיביות בשילוב יוקרה – שילוב נדיר.",
+      "rating": 5
+    },
+    {
+      "id": "3",
+      "carId": "5",
+      "userId": "6",
+      "description": "קלאס V מושלם להסעת קבוצות. מרחבי, נוח ומרשים. ממליץ בחום.",
+      "rating": 4
+    },
+    {
+      "id": "4",
+      "carId": "6",
+      "userId": "7",
+      "description": "BMW 750 – ייצוגי, שקט ועוצמתי. מנוע ה-V12 הוא חוויה בפני עצמה.",
+      "rating": 5
+    },
+    {
+      "id": "5",
+      "carId": "7",
+      "userId": "8",
+      "description": "X5 מאזן בין נוחות לביצועים בצורה מושלמת. מצוין לטיולים משפחתיים.",
+      "rating": 4
+    },
+    {
+      "id": "6",
+      "carId": "8",
+      "userId": "9",
+      "description": "X6 – עיצוב פנומנלי שמושך עיניים. תחושת נהיגה ספורטיבית ומהנה.",
+      "rating": 5
+    },
+    {
+      "id": "7",
+      "carId": "9",
+      "userId": "10",
+      "description": "אודי A8 – רמה של מכונית נשיאות. כל אביזר ברמה הגבוהה ביותר.",
+      "rating": 5
+    },
+    {
+      "id": "8",
+      "carId": "10",
+      "userId": "1",
+      "description": "Q7 הוא ה-SUV המשפחתי המושלם. מרחבי, חזק ונוח לכל הנוסעים.",
+      "rating": 4
+    },
+    {
+      "id": "9",
+      "carId": "11",
+      "userId": "2",
+      "description": "פורשה מקאן – מהנה לנהיגה, תגובתי ועם נוכחות חזקה. שווה כל שקל.",
+      "rating": 5
+    },
+    {
+      "id": "10",
+      "carId": "12",
+      "userId": "3",
+      "description": "ריינג' רובר ספורט – יוקרה + שטח + ספורטיביות. השילוב המנצח.",
+      "rating": 5
+    },
+    {
+      "id": "11",
+      "carId": "13",
+      "userId": "4",
+      "description": "ג'יפ רנגלר – חוויה אחרת לגמרי. קרוב לטבע, כיפי ומסעיר.",
+      "rating": 4
+    },
+    {
+      "id": "12",
+      "carId": "14",
+      "userId": "5",
+      "description": "פורשה 911 GT3 – חוויית נהיגה שלא תישכח. מנוע השאיבה הטבעית הוא מוסיקה.",
+      "rating": 5
+    },
+    {
+      "id": "13",
+      "carId": "35",
+      "userId": "6",
+      "description": "מוסטנג 67 – אספנות ברמה הגבוהה. כל נסיעה היא שיעור בהיסטוריה של המכוניות.",
+      "rating": 5
+    },
+    {
+      "id": "14",
+      "carId": "19",
+      "userId": "7",
+      "description": "שברולט בל אייר 57' – נדיר ומרהיב. אחד הרכבים היפים ביותר שנוצרו אי פעם.",
+      "rating": 5
+    },
+    {
+      "id": "15",
+      "carId": "44",
+      "userId": "8",
+      "description": "יגואר קלאסית היא יצירת אמנות על גלגלים. קווים שאין כמותם בעולם.",
+      "rating": 5
+    },
+    {
+      "id": "16",
+      "carId": "15",
+      "userId": "9",
+      "description": "פרארי F8 – ספורט קיצוני שהפך לנסיעה שאי אפשר למחוק מן הזיכרון.",
+      "rating": 5
+    },
+    {
+      "id": "17",
+      "carId": "33",
+      "userId": "10",
+      "description": "BMW M3 Competition – אחד הסדאנים הספורטיביים הטובים ביותר בעולם. מרשים מאוד.",
+      "rating": 5
+    },
+    {
+      "id": "18",
+      "carId": "45",
+      "userId": "1",
+      "description": "הלמבורגיני הזו פשוט מטריפה חושים! חלום שמתגשם, רכב מדהים לחתונה.",
+      "rating": 5
+    },
+    {
+      "id": "19",
+      "carId": "46",
+      "userId": "Uiw9LYFpo9M",
+      "description": "החיפושית התכלת הייתה מושלמת לצילומים שלנו, הגיעה נקייה ומצוחצחת ומאוד נוסטלגית.",
+      "rating": 5
+    },
+    {
+      "id": "20",
+      "carId": "47",
+      "userId": "XMBkUOcC19I",
+      "description": "חוויה יוצאת מן הכלל Harrison עם החיפושית הצהובה! רכב פוטוגני בטירוף ונוסע מעולה.",
+      "rating": 5
+    },
+    {
+      "id": "21",
+      "carId": "48",
+      "userId": "U4mhS-C4xV0",
+      "description": "הפולאריס פשוט חיית שטח. עשינו טיול מטורף בדיונות, מומלץ למי שמחפש אדרנלין.",
+      "rating": 5
+    },
+    {
+      "id": "22",
+      "carId": "13",
+      "userId": "SJ2Y-u2",
+      "description": "לקחנו את הרנגלר לסופשבוע בצפון, חווית שטח בלתי רגילה. שירות מעולה!",
+      "rating": 5
+    },
+    {
+      "id": "23",
+      "carId": "22",
+      "userId": "1pv5HsK",
+      "description": "הפונטיאק 1954 החזירה אותי בזמן. רכב חזק מאוד ושמור בצורה קפדנית.",
+      "rating": 5
+    },
+    {
+      "id": "24",
+      "carId": "3",
+      "userId": "wVOsA0WHS9A",
+      "description": "מהמם",
+      "rating": 5
+    },
+    {
+      "id": "25",
+      "carId": "3",
+      "userId": "wVOsA0WHS9A",
+      "description": "רכב מרווח ונוח מאוד, חוויית שירות מצוינת מהאתר.",
+      "rating": 4
+    },
+    {
+      "id": "26",
+      "carId": "41",
+      "userId": "2",
+      "description": "נסיעה על הפרארי SF90 זו חוויה של פעם בחיים. תאוצה בלתי נתפסת.",
+      "rating": 5
+    },
+    {
+      "id": "27",
+      "carId": "27",
+      "userId": "3",
+      "description": "הריינג' רובר ווג מפנק ברמות הגבוהות ביותר שיש. שירות ויאיפי.",
+      "rating": 5
+    },
+    {
+      "carId": "11",
+      "userId": "wVOsA0WHS9A",
+      "description": "וואו ",
+      "rating": 1,
+      "id": "cA9px3o"
+    },
+    {
+      "carId": "42",
+      "userId": "wVOsA0WHS9A",
+      "description": "vbvvbv",
+      "rating": 1.2,
+      "id": "t9MFm01"
+    },
+    {
+      "carId": "18",
+      "userId": "gDLl27e",
+      "description": "מושלם יפה מאודדד",
+      "rating": 5,
+      "id": "6DgcJQE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
