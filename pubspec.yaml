@@ -36,8 +36,8 @@ dependencies:
 
   # פיירבייס
   firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
-  cloud_firestore: ^4.13.0
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.17.5
   firebase_storage: ^11.5.4
 
   # בסיס נתונים מקומי וקריאות רשת
