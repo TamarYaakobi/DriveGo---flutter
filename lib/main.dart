@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // <-- הוספנו את הייבוא הזה
 import './theme/app_theme.dart';
 import './screens/home_screen.dart';
+import 'firebase_options.dart';
 import 'dart:io';
 
 void main() async {
+  // נטרול בדיקת תעודות אבטחה עבור בקשות HTTP רגילות באפליקציה
   HttpOverrides.global = MyHttpOverrides();
+  
   WidgetsFlutterBinding.ensureInitialized();
   
+  // איתחול ה-Firebase המקורי שלך
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: String.fromEnvironment('FIREBASE_API_KEY'),
-      appId: String.fromEnvironment('FIREBASE_APP_ID'),
-      messagingSenderId: String.fromEnvironment('FIREBASE_SENDER_ID'),
-      projectId: String.fromEnvironment('FIREBASE_PROJECT_ID'),
-    ),
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // מעקף מיוחד עבור חסימות סינון (אתרוג / נטפר / רימון) מול Firestore
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    sslEnabled: true,
+    host: 'firestore.googleapis.com', // מאלץ שימוש ב-HTTPS רגיל במקום gRPC
   );
 
   runApp(const DriveGoApp());
@@ -33,7 +40,6 @@ class DriveGoApp extends StatelessWidget {
     );
   }
 }
-
 
 class MyHttpOverrides extends HttpOverrides {
   @override

@@ -75,6 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Navigator.pushReplacementNamed(context, '/'); // חזרה לדף הראשי
       }
     } on FirebaseAuthException catch (e) {
+      print('CODE: ${e.code}, MESSAGE: ${e.message}');
       String errorMsg = 'ההרשמה נכשלה';
       if (e.code == 'email-already-in-use') {
         errorMsg = 'המשתמש כבר רשום במערכת';
@@ -86,10 +87,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SnackBar(content: Text(errorMsg), backgroundColor: Colors.red),
       );
     } catch (e) {
+      print('GENERAL ERROR: $e'); 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('שגיאה בלתי צפויה קוראת במערכת'), backgroundColor: Colors.red),
       );
-    } finally {
+    } 
+    finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }

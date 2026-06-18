@@ -35,10 +35,10 @@ dependencies:
   provider: ^6.1.1
 
   # פיירבייס
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.16.0
-  cloud_firestore: ^4.17.5
-  firebase_storage: ^11.5.4
+  firebase_core: ^4.11.0
+  firebase_auth: ^6.5.3
+  cloud_firestore: ^6.6.0
+  firebase_storage: ^13.4.3
 
   # בסיס נתונים מקומי וקריאות רשת
   sqflite: ^2.3.0
