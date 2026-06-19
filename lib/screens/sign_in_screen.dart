@@ -100,10 +100,7 @@ class SignInScreen extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   // מעבר לדף הרשמה והחלפת הדף הנוכחי
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                  );
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: const Text(
                   'האימייל לא נמצא במערכת? עבור להרשמה מהירה ←',
