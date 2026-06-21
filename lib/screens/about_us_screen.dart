@@ -1,3 +1,4 @@
+import 'package:drive_go/screens/cars_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_nav_bar.dart';
 import '../theme/app_theme.dart';
@@ -10,7 +11,7 @@ class AboutUsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.bgDark,
       // משתמשים בבר העליון המשותף והלוגו שכבר בנית!
-      appBar: const CustomNavBar(), 
+      appBar: const CustomNavBar(),
       drawer: const CustomDrawer(),
       body: Directionality(
         textDirection: TextDirection.rtl, // תמיכה מלאה בעברית
@@ -20,7 +21,8 @@ class AboutUsScreen extends StatelessWidget {
               // ================= SECTION 1: HERO SECTION =================
               Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.35, // 35% מגובה המסך
+                height:
+                    MediaQuery.of(context).size.height * 0.35, // 35% מגובה המסך
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
@@ -96,7 +98,11 @@ class AboutUsScreen extends StatelessWidget {
                       height: 3,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
-                          colors: [Color(0xFFF3E5AB), AppTheme.goldPrimary, Color(0xFFAA7C11)],
+                          colors: [
+                            Color(0xFFF3E5AB),
+                            AppTheme.goldPrimary,
+                            Color(0xFFAA7C11),
+                          ],
                         ),
                         borderRadius: BorderRadius.circular(2),
                       ),
@@ -104,12 +110,20 @@ class AboutUsScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Text(
                       'חברת Drive Go נולדה מתוך תשוקה אמיתית להגה, לעיצוב עוצר נשימה ולחוויית נהיגה אקסקלוסיבית. הבנו שלפעמים נסיעה היא לא רק הגעה מיעד א\' ליעד ב\' – היא הדרך, הריגוש והזיכרון שנשאר איתך.',
-                      style: TextStyle(color: Colors.white70, fontSize: 15, height: 1.6),
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 15,
+                        height: 1.6,
+                      ),
                     ),
                     const SizedBox(height: 15),
                     const Text(
                       'הקמנו את החברה במטרה להנגיש את רכבי העילית והספורט המובילים בעולם, תוך שמירה על סטנדרט שירות אירופאי קפדני, דיסקרטיות מלאה וחווית לקוח חסרת פשרות.',
-                      style: TextStyle(color: Colors.white70, fontSize: 15, height: 1.6),
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 15,
+                        height: 1.6,
+                      ),
                     ),
                     const SizedBox(height: 30),
                     // תמונת פנים הרכב היוקרתית עם פינות מעוגלות וצל
@@ -123,7 +137,9 @@ class AboutUsScreen extends StatelessWidget {
                             offset: const Offset(0, 8),
                           ),
                         ],
-                        border: Border.all(color: AppTheme.goldPrimary.withOpacity(0.2)),
+                        border: Border.all(
+                          color: AppTheme.goldPrimary.withOpacity(0.2),
+                        ),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -141,20 +157,43 @@ class AboutUsScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 color: Colors.white.withOpacity(0.02),
-                padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 40,
+                  horizontal: 24,
+                ),
                 child: Column(
                   children: [
                     const Text(
                       'הערכים שמובילים אותנו',
-                      style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
-                    Container(width: 60, height: 3, color: AppTheme.goldPrimary),
+                    Container(
+                      width: 60,
+                      height: 3,
+                      color: AppTheme.goldPrimary,
+                    ),
                     const SizedBox(height: 30),
-                    
-                    _buildValueCard('01', 'איכות ללא פשרות', 'כל רכב בצי שלנו עובר בדיקות קפדניות, טיפולים שוטפים והכנה ברמת מצב תצוגה לפני שהוא מגיע אליך.'),
-                    _buildValueCard('02', 'שירות בגובה העיניים', 'ליווי אישי ומסור מרגע ההתעניינות ועד להחזרת המפתח. היוקרה היא במוצר, המשפחתיות היא בשירות.'),
-                    _buildValueCard('03', 'שקיפות ואמינות', 'בלי אותיות קטנות ובלי הפתעות. הכל ברור, מתומחר בצורה הוגנת ומותאם בדיוק לצרכים והשאיפות שלך.'),
+
+                    _buildValueCard(
+                      '01',
+                      'איכות ללא פשרות',
+                      'כל רכב בצי שלנו עובר בדיקות קפדניות, טיפולים שוטפים והכנה ברמת מצב תצוגה לפני שהוא מגיע אליך.',
+                    ),
+                    _buildValueCard(
+                      '02',
+                      'שירות בגובה העיניים',
+                      'ליווי אישי ומסור מרגע ההתעניינות ועד להחזרת המפתח. היוקרה היא במוצר, המשפחתיות היא בשירות.',
+                    ),
+                    _buildValueCard(
+                      '03',
+                      'שקיפות ואמינות',
+                      'בלי אותיות קטנות ובלי הפתעות. הכל ברור, מתומחר בצורה הוגנת ומותאם בדיוק לצרכים והשאיפות שלך.',
+                    ),
                   ],
                 ),
               ),
@@ -162,7 +201,10 @@ class AboutUsScreen extends StatelessWidget {
               // ================= SECTION 4: CTA BUTTON =================
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 60,
+                  horizontal: 24,
+                ),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: const NetworkImage(
@@ -170,7 +212,10 @@ class AboutUsScreen extends StatelessWidget {
                     ),
                     fit: BoxFit.cover,
                     opacity: 0.15,
-                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.8), BlendMode.darken),
+                    colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.8),
+                      BlendMode.darken,
+                    ),
                   ),
                 ),
                 child: Column(
@@ -178,7 +223,11 @@ class AboutUsScreen extends StatelessWidget {
                     const Text(
                       'הגה החלומות שלך במרחק קליק אחד',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     const Text(
@@ -186,14 +235,19 @@ class AboutUsScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.white54, fontSize: 14),
                     ),
                     const SizedBox(height: 30),
-                    
+
                     // כפתור הזהב המעוצב
                     _buildGoldButton(
                       text: 'לצפייה בצי הרכבים שלנו',
-                      onPressed: () {
-                        // ניווט חזרה או לדף הרכבים
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: null,
+                            categoryName: 'כל הרכבים',
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -233,12 +287,20 @@ class AboutUsScreen extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             title,
-            style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             description,
-            style: const TextStyle(color: Colors.white70, fontSize: 14, height: 1.5),
+            style: const TextStyle(
+              color: Colors.white70,
+              fontSize: 14,
+              height: 1.5,
+            ),
           ),
         ],
       ),
@@ -246,7 +308,10 @@ class AboutUsScreen extends StatelessWidget {
   }
 
   // ווידג'ט עזר לכפתור הזהב היוקרתי
-  Widget _buildGoldButton({required String text, required VoidCallback onPressed}) {
+  Widget _buildGoldButton({
+    required String text,
+    required VoidCallback onPressed,
+  }) {
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -266,12 +331,18 @@ class AboutUsScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
         ),
         onPressed: onPressed,
         child: Text(
           text,
-          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 15),
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
         ),
       ),
     );

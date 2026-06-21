@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme/app_theme.dart';
+import '../services/prefs_service.dart'; // ייבוא של שירות ה-Preferences
 import 'sign_in_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // מפתח לניהול הטופס והולידציות (מקביל ל-Formik)
+  // מפתח לניהול הטופס והולטרציות
   final _formKey = GlobalKey<FormState>();
 
   // קונטרולרים לשמירת הערכים מהשדות
@@ -25,9 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool _isAdmin = false;
   bool _isLoading = false;
-
-  // הגדרת סיסמת מנהל קבועה (כמו ה-VITE_ADMIN_PASSWORD שלך)
-  final String _correctAdminPassword = "SECRET_ADMIN_PASS_2026"; 
 
   @override
   void dispose() {
@@ -48,31 +46,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // 1. יצירת המשתמש ב-Firebase Authentication
+      // 1. אם המשתמש סימן שהוא מנהל, נבדוק את הסיסמה מול Firestore (מסמך '1')
+      if (_isAdmin) {
+        final adminConfigDoc = await FirebaseFirestore.instance
+            .collection('system_settings')
+            .doc('1')
+            .get();
+
+        if (adminConfigDoc.exists) {
+          final dbAdminPassword = adminConfigDoc.data()?['adminPassword'];
+          
+          // השוואה בין מה שהמשתמש הקליד למה ששמור בבסיס הנתונים
+          if (_adminPasswordController.text != dbAdminPassword) {
+            setState(() => _isLoading = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('סיסמת מנהל שגויה! המערכת נעולה.'), 
+                backgroundColor: Colors.red,
+              ),
+            );
+            return; // עוצר את ההרשמה מיד
+          }
+        } else {
+          throw Exception("הגדרות מערכת לא נמצאו בשרת");
+        }
+      }
+
+      // 2. יצירת המשתמש ב-Firebase Authentication
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
 
-      // 2. שמירת הנתונים הנוספים ב-Cloud Firestore
+      // 3. שמירת הנתונים הנוספים ב-Cloud Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user!.uid)
           .set({
-        'firstName': _firstNameController.text.trim(),
-        'lastName': _lastNameController.text.trim(),
-        'idNumber': _idNumberController.text.trim(),
-        'email': _emailController.text.trim(),
-        'isAdmin': _isAdmin,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+            'firstName': _firstNameController.text.trim(),
+            'lastName': _lastNameController.text.trim(),
+            'idNumber': _idNumberController.text.trim(),
+            'email': _emailController.text.trim(),
+            'isAdmin': _isAdmin, // יישמר כ-true רק אם הוא עבר את הבדיקה למעלה!
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+
+      // 4. שמירת מצב ההתחברות מקומית במכשיר למניעת התנתקות
+      await PrefsService.saveBool('is_logged_in', true);
+      await PrefsService.saveString('user_email', _emailController.text.trim());
+      await PrefsService.saveString('user_name', '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('נרשם בהצלחה!'), backgroundColor: Colors.green),
+          const SnackBar(
+            content: Text('נרשם בהצלחה!'),
+            backgroundColor: Colors.green,
+          ),
         );
-        Navigator.pushReplacementNamed(context, '/'); // חזרה לדף הראשי
+        // איפוס הנתב ומעבר ישר לדף הבית הראשי של האפליקציה
+        Navigator.of(context).popUntil((route) => route.isFirst);
       }
     } on FirebaseAuthException catch (e) {
       print('CODE: ${e.code}, MESSAGE: ${e.message}');
@@ -82,17 +115,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else if (e.code == 'weak-password') {
         errorMsg = 'הסיסמה חלשה מדי';
       }
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMsg), backgroundColor: Colors.red),
       );
     } catch (e) {
-      print('GENERAL ERROR: $e'); 
+      print('GENERAL ERROR: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('שגיאה בלתי צפויה קוראת במערכת'), backgroundColor: Colors.red),
+        const SnackBar(
+          content: Text('שגיאה בלתי צפויה קוראת במערכת'),
+          backgroundColor: Colors.red,
+        ),
       );
-    } 
-    finally {
+    } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
@@ -114,29 +149,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Form(
-            key: _formKey, // קישור המפתח לטופס
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
                   'Drive Go',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900, color: AppTheme.goldPrimary),
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: AppTheme.goldPrimary,
+                  ),
                 ),
                 const SizedBox(height: 5),
-                const Text('יצירת חשבון יוקרה', style: TextStyle(fontSize: 18, color: Colors.white70)),
+                const Text(
+                  'יצירת חשבון יוקרה',
+                  style: TextStyle(fontSize: 18, color: Colors.white70),
+                ),
                 const SizedBox(height: 15),
                 Container(width: 50, height: 2, color: AppTheme.goldPrimary),
                 const SizedBox(height: 30),
 
-                // שורה של שם פרטי ושם משפחה (Flex / Row כמו ב-React)
+                // שורה של שם פרטי ושם משפחה
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
                         controller: _firstNameController,
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(labelText: 'שם פרטי', labelStyle: TextStyle(color: Colors.grey)),
-                        validator: (v) => (v == null || v.trim().length < 2) ? 'לפחות 2 תווים' : null,
+                        decoration: const InputDecoration(
+                          labelText: 'שם פרטי',
+                          labelStyle: TextStyle(color: Colors.grey),
+                        ),
+                        validator: (v) => (v == null || v.trim().length < 2)
+                            ? 'לפחות 2 תווים'
+                            : null,
                       ),
                     ),
                     const SizedBox(width: 15),
@@ -144,8 +191,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: TextFormField(
                         controller: _lastNameController,
                         style: const TextStyle(color: Colors.white),
-                        decoration: const InputDecoration(labelText: 'שם משפחה', labelStyle: TextStyle(color: Colors.grey)),
-                        validator: (v) => (v == null || v.trim().length < 2) ? 'לפחות 2 תווים' : null,
+                        decoration: const InputDecoration(
+                          labelText: 'שם משפחה',
+                          labelStyle: TextStyle(color: Colors.grey),
+                        ),
+                        validator: (v) => (v == null || v.trim().length < 2)
+                            ? 'לפחות 2 תווים'
+                            : null,
                       ),
                     ),
                   ],
@@ -158,7 +210,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: const TextStyle(color: Colors.white),
                   keyboardType: TextInputType.number,
                   maxLength: 9,
-                  decoration: const InputDecoration(labelText: 'תעודת זהות', labelStyle: TextStyle(color: Colors.grey), counterText: ""),
+                  decoration: const InputDecoration(
+                    labelText: 'תעודת זהות',
+                    labelStyle: TextStyle(color: Colors.grey),
+                    counterText: "",
+                  ),
                   validator: (v) {
                     if (v == null || v.isEmpty) return 'שדה חובה';
                     if (v.length != 9) return 'תעודת זהות חייבת להכיל 9 ספרות';
@@ -173,10 +229,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _emailController,
                   style: const TextStyle(color: Colors.white),
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(labelText: 'אימייל', labelStyle: TextStyle(color: Colors.grey)),
+                  decoration: const InputDecoration(
+                    labelText: 'אימייל',
+                    labelStyle: TextStyle(color: Colors.grey),
+                  ),
                   validator: (v) {
                     if (v == null || v.isEmpty) return 'שדה חובה';
-                    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(v)) return 'אימייל לא תקין';
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(v)) return 'אימייל לא תקין';
                     return null;
                   },
                 ),
@@ -187,8 +248,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _passwordController,
                   obscureText: true,
                   style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(labelText: 'סיסמה', labelStyle: TextStyle(color: Colors.grey)),
-                  validator: (v) => (v == null || v.length < 8) ? 'הסיסמה חייבת להכיל לפחות 8 תווים' : null,
+                  decoration: const InputDecoration(
+                    labelText: 'סיסמה',
+                    labelStyle: TextStyle(color: Colors.grey),
+                  ),
+                  validator: (v) => (v == null || v.length < 8)
+                      ? 'הסיסמה חייבת להכיל לפחות 8 תווים'
+                      : null,
                 ),
                 const SizedBox(height: 20),
 
@@ -196,7 +262,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Theme(
                   data: ThemeData(unselectedWidgetColor: Colors.white54),
                   child: CheckboxListTile(
-                    title: const Text('משתמש מנהל מערכת', style: TextStyle(color: Colors.white, fontSize: 15)),
+                    title: const Text(
+                      'משתמש מנהל מערכת',
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
                     value: _isAdmin,
                     activeColor: AppTheme.goldPrimary,
                     checkColor: Colors.black,
@@ -211,7 +280,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
 
-                // שדה סיסמת מנהל מותנה (מופיע רק אם ה-Checkbox מסומן)
+                // שדה סיסמת מנהל מותנה
                 if (_isAdmin) ...[
                   const SizedBox(height: 10),
                   TextFormField(
@@ -221,12 +290,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: const InputDecoration(
                       labelText: 'הכנס סיסמת מנהל סודית',
                       labelStyle: TextStyle(color: AppTheme.goldPrimary),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.amber)),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.amber),
+                      ),
                     ),
                     validator: (v) {
                       if (_isAdmin) {
                         if (v == null || v.isEmpty) return 'שדה חובה עבור מנהל';
-                        if (v != _correctAdminPassword) return 'סיסמת מנהל שגויה';
                       }
                       return null;
                     },
@@ -234,26 +304,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
                 const SizedBox(height: 35),
 
-                // כפתור שליחה עם מצב טעינה
+                // כפתור שליחה
                 Container(
                   width: double.infinity,
                   height: 50,
-                  decoration: BoxDecoration(gradient: AppTheme.goldGradient, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(
+                    gradient: AppTheme.goldGradient,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _submitForm,
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, shadowColor: Colors.transparent),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
                     child: _isLoading
                         ? const CircularProgressIndicator(color: Colors.black)
-                        : const Text('הרשם והצטרף לחוויה', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
+                        : const Text(
+                            'הרשם והצטרף לחוויה',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 20),
 
+                // מעבר למסך התחברות
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
                   },
-                  child: const Text('כבר יש לך חשבון? לחץ להתחברות לקוחות', style: TextStyle(color: AppTheme.goldPrimary)),
+                  child: const Text(
+                    'כבר יש לך חשבון? לחץ להתחברות לקוחות',
+                    style: TextStyle(color: AppTheme.goldPrimary),
+                  ),
                 ),
               ],
             ),

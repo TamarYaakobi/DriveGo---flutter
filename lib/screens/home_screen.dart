@@ -1,78 +1,65 @@
+import 'package:drive_go/screens/cars_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../providers/auth_provider.dart';
 import '../widgets/custom_nav_bar.dart';
 import '../theme/app_theme.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'favorites_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // מאזינים בזמן אמת למצב החיבור של המשתמש
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, authSnapshot) {
-        // בזמן טעינת מצב החיבור, נציג אנימציית טעינה מוזהבת
-        if (authSnapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            backgroundColor: AppTheme.bgDark,
-            body: Center(
-              child: CircularProgressIndicator(color: AppTheme.goldPrimary),
-            ),
-          );
-        }
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-        // בדיקה: האם המשתמש מחובר?
-        bool isLoggedIn = authSnapshot.hasData && authSnapshot.data != null;
-
-        if (!isLoggedIn) {
-          // אם הוא אורח - נציג לו את דף הבית עם המיתוג "אורח"
-          return _buildHomeScreenContent(context, 'אורח', false);
-        }
-
-        // אם הוא מחובר - נשלוף את ה-UID שלו ונביא את השם האמיתי מ-Firestore
-        String uid = authSnapshot.data!.uid;
-
-        return StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('users')
-              .doc(uid)
-              .snapshots(),
-          builder: (context, firestoreSnapshot) {
-            String displayFirstName = 'בטעינה...';
-
-            if (firestoreSnapshot.hasData && firestoreSnapshot.data!.exists) {
-              var userData =
-                  firestoreSnapshot.data!.data() as Map<String, dynamic>;
-              displayFirstName = userData['firstName'] ?? 'משתמש';
-            }
-
-            // מציגים את דף הבית המלא עם השם האמיתי
-            return _buildHomeScreenContent(context, displayFirstName, true);
-          },
-        );
-      },
-    );
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkInternet();
   }
 
-  // פונקציה מרכזית שבונה את תוכן דף הבית
-  Widget _buildHomeScreenContent(
-    BuildContext context,
-    String name,
-    bool isUserLoggedIn,
-  ) {
+  Future<void> _checkInternet() async {
+    final result = await Connectivity().checkConnectivity();
+
+    if (!mounted) return;
+
+    if (result == ConnectivityResult.none) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const FavoritesScreen()),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
+    if (authProvider.isLoading) {
+      return const Scaffold(
+        backgroundColor: AppTheme.bgDark,
+        body: Center(
+          child: CircularProgressIndicator(color: AppTheme.goldPrimary),
+        ),
+      );
+    }
+
+    final user = authProvider.user;
+    final bool isLoggedIn = user != null;
+
     return Scaffold(
       backgroundColor: AppTheme.bgDark,
-      appBar: CustomNavBar(userName: name), // הבר הדינמי שלנו
-      drawer: const CustomDrawer(), // התפריט הצידי
+      appBar: const CustomNavBar(),
+      drawer: const CustomDrawer(),
       body: Directionality(
-        textDirection: TextDirection.rtl, // תמיכה מלאה בעברית
+        textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // ================= SECTION 1: HERO SECTION =================
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
@@ -90,20 +77,17 @@ class HomeScreen extends StatelessWidget {
                       'https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
                     ),
                     fit: BoxFit.cover,
-                    opacity: 0.35, // יוצר את ה-video-overlay הכהה מהריאקט
+                    opacity: 0.35,
                   ),
                 ),
                 child: Column(
                   children: [
-                    // --- כאן הוספנו את הלוגו בראש דף הבית ---
                     Image.asset(
                       'assets/images/logo.png',
-                      height: 90, // גובה בול במידה הנכונה לראש הדף
+                      height: 90,
                       fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 25),
-
-                    // כותרת ראשית חזקה ומעוצבת
                     const Text(
                       'אל תסתפק בנסיעה.\nתבחר בחוויה.',
                       textAlign: TextAlign.center,
@@ -115,25 +99,28 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    // כותרת משנית במראה מאט עמום
                     const Text(
                       'חוויית הנהיגה האולטימטיבית מחכה לך עם צי הרכבים המובחר בישראל.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                     const SizedBox(height: 35),
-                    // כפתור ה-CTA המרכזי בעיצוב גרדיאנט זהב יוקרתי
                     _buildGoldButton(
                       text: 'לצפייה בקולקציה',
-                      onPressed: () {
-                        // כאן יבוא ניווט לדף הרכבים בהמשך
-                      },
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: null,
+                            categoryName: 'כל הרכבים',
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              // ================= SECTION 2: FEATURES (הסטנדרט שלנו) =================
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 40,
@@ -159,7 +146,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
 
-              // ================= SECTION 3: CATEGORIES (הקטגוריות שלנו) =================
               Container(
                 color: Colors.white.withOpacity(0.01),
                 padding: const EdgeInsets.symmetric(
@@ -173,24 +159,50 @@ class HomeScreen extends StatelessWidget {
                     _buildCategoryCard(
                       'רכבי אטרקציות',
                       'https://www.asfir.co.il/cdn/shop/articles/front-bar-547006-_1__optimized.jpg?v=1771413066',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: "1",
+                            categoryName: 'רכבי אטרקציות',
+                          ),
+                        ),
+                      ),
                     ),
                     _buildCategoryCard(
                       'רכבי אספנות',
                       'https://images.pexels.com/photos/1592384/pexels-photo-1592384.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: "2",
+                            categoryName: 'רכבי אספנות',
+                          ),
+                        ),
+                      ),
                     ),
                     _buildCategoryCard(
                       'רכבי יוקרה',
                       'https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: "3",
+                            categoryName: 'רכבי יוקרה',
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              // ================= SECTION 4: FOOTER CTA & CONTACT =================
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(35),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -215,11 +227,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 25),
 
-                    // כפתורי פעולה תחתונים
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (!isUserLoggedIn) ...[
+                        if (!isLoggedIn) ...[
                           _buildGoldButton(
                             text: 'הרשמה מהירה',
                             onPressed: () =>
@@ -238,7 +249,7 @@ class HomeScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50),
                             ),
                           ),
-                          onPressed: () {}, // דף עלינו
+                          onPressed: () {},
                           child: const Text(
                             'קראו עלינו',
                             style: TextStyle(color: Colors.white),
@@ -251,25 +262,12 @@ class HomeScreen extends StatelessWidget {
                     const Divider(color: Colors.white12),
                     const SizedBox(height: 20),
 
-                    // פרטי קשר מובנים באפליקציה
-                    // פרטי קשר מובנים באפליקציה עם קישור ישיר לפעולה
+                    _buildContactItem('050-303-5052', 'tel:0503035052'),
                     _buildContactItem(
-                      Icons.phone,
-                      '050-303-5052',
-                      'tel:0503035052',
-                    ),
-                    _buildContactItem(
-                      Icons.email,
                       'info@drivego.co.il',
                       'mailto:info@drivego.co.il',
                     ),
-
-                    // שורת שעות הפעילות נשארת כטקסט רגיל ללא פעולה (פשוט מעבירים מחרוזת ריקה או לא לוחצים)
-                    _buildContactItem(
-                      Icons.access_time,
-                      "א׳-ה׳ 09:00 - 18:00",
-                      '',
-                    ),
+                    _buildContactItem("א׳-ה׳ 09:00 - 18:00", ''),
                   ],
                 ),
               ),
@@ -280,7 +278,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ווידג'ט עזר לכותרות סקשנים עם קו זהב קטן מתחת
   Widget _buildSectionHeader(String title) {
     return Column(
       children: [
@@ -298,14 +295,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ווידג'ט עזר לכרטיסי התכונות (Features)
   Widget _buildFeatureCard(String title, String description) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1E), // תיקון: הצירוף הסיני הוסר בהצלחה!
+        color: const Color(0xFF1A1A1E),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
@@ -334,61 +330,62 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ווידג'ט עזר לכרטיסי קטגוריות עם תמונת רקע וטקסט מעל
-  Widget _buildCategoryCard(String title, String imageUrl) {
-    return Container(
-      width: double.infinity,
-      height: 160,
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(
-          image: NetworkImage(imageUrl),
-          fit: BoxFit.cover,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+  Widget _buildCategoryCard(String title, String imageUrl, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(15),
       child: Container(
-        // ה-Overlay הכהה כדי שהטקסט יבלוט
+        width: double.infinity,
+        height: 160,
+        margin: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [Colors.black.withOpacity(0.85), Colors.transparent],
+          image: DecorationImage(
+            image: NetworkImage(imageUrl),
+            fit: BoxFit.cover,
           ),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'גלה עוד ←',
-              style: TextStyle(color: AppTheme.goldPrimary, fontSize: 13),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
             ),
           ],
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [Colors.black.withOpacity(0.85), Colors.transparent],
+            ),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'גלה עוד ←',
+                style: TextStyle(color: AppTheme.goldPrimary, fontSize: 13),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // כפתור זהב יוקרתי שחוזר על עצמו
   Widget _buildGoldButton({
     required String text,
     required VoidCallback onPressed,
@@ -429,29 +426,34 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // שורת פרטי קשר פשוטה ויפה לפוטר
-  Widget _buildContactItem(IconData icon, String text, String urlScheme) {
+  Widget _buildContactItem(String text, String urlScheme, [String dummy = '']) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: InkWell(
-        // הופך את השורה כולה ללחיצה עם אפקט מגע עדין
-        onTap: () async {
-          final Uri url = Uri.parse(urlScheme);
-          if (await canLaunchUrl(url)) {
-            await launchUrl(url);
-          } else {
-            // במקרה שאי אפשר לפתוח (למשל במחשב/סימולטור בלי חייגן)
-            debugPrint('לא ניתן לפתוח את הקישור: $urlScheme');
-          }
-        },
+        onTap: urlScheme.isEmpty
+            ? null
+            : () async {
+                final Uri url = Uri.parse(urlScheme);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                }
+              },
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min, // שומר על המרכזיות של האלמנטים
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: AppTheme.goldPrimary, size: 18),
+              Icon(
+                urlScheme.contains('tel')
+                    ? Icons.phone
+                    : urlScheme.contains('mailto')
+                    ? Icons.email
+                    : Icons.access_time,
+                color: AppTheme.goldPrimary,
+                size: 18,
+              ),
               const SizedBox(width: 10),
               Text(
                 text,

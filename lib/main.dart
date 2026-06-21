@@ -1,11 +1,13 @@
 import 'package:drive_go/providers/auth_provider.dart';
+import 'package:drive_go/providers/favorites_provider.dart';
+import 'package:drive_go/providers/reviews_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart'; // <-- 1. חובה לייבא את חבילת הפרובידר
 import './theme/app_theme.dart';
 import './screens/home_screen.dart';
-import './providers/car_provider.dart'; // <-- 2. מייבאים את הפרובידר שיצרנו מקודם
+import 'providers/cars_provider.dart'; // <-- 2. מייבאים את הפרובידר שיצרנו מקודם
 import 'firebase_options.dart';
 import 'dart:io';
 
@@ -26,8 +28,10 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CarProvider()),
+        ChangeNotifierProvider(create: (_) => CarsProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ReviewsProvider()),
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()..loadFavorites()),
       ],
       child: const DriveGoApp(),
     ),

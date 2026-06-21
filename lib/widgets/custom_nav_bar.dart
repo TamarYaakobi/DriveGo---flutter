@@ -1,44 +1,52 @@
 import 'package:drive_go/screens/about_us_screen.dart';
+import 'package:drive_go/screens/add_car_screen.dart';
+import 'package:drive_go/screens/cars_screen.dart';
+import 'package:drive_go/screens/favorites_screen.dart';
 import 'package:drive_go/screens/sign_in_screen.dart';
+import 'package:drive_go/screens/home_screen.dart';
 import 'package:drive_go/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // הוספת הפרובידר
+import '../providers/auth_provider.dart'; // ייבוא ה-AuthProvider
 import '../theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // 1. הבר העליון שיופיע בכל דף עם הלוגו במרכז
 class CustomNavBar extends StatelessWidget implements PreferredSizeWidget {
-  final String userName; // נקבל את שם המשתמש כדי להציג אותו
-
-  const CustomNavBar({super.key, this.userName = 'אורח'});
+  const CustomNavBar({super.key}); // כבר לא צריך לקבל userName מבחוץ!
 
   @override
   Widget build(BuildContext context) {
+    // שליפת המשתמש הנוכחי מתוך ה-AuthProvider הגלובלי
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
+    final String displayTitle = user != null
+        ? 'שלום, ${user.firstName}'
+        : 'שלום, אורח';
+
     return AppBar(
       backgroundColor: AppTheme.bgDark,
       elevation: 2,
       shadowColor: AppTheme.goldPrimary.withOpacity(0.2),
 
-      // החלפת טקסט הכותרת בלוגו האפליקציה הרשמי
       title: Image.asset(
         'assets/images/logo.png',
-        height: 40, // גובה פרופורציונלי ומותאם ל-AppBar
+        height: 40,
         fit: BoxFit.contain,
       ),
       centerTitle: true,
 
-      // מציג את שם המשתמש בצד שמאל של הבר
       actions: [
         Padding(
           padding: const EdgeInsets.only(left: 16.0),
           child: Center(
             child: Text(
-              'שלום, $userName',
+              displayTitle,
               style: const TextStyle(color: Colors.white70, fontSize: 14),
             ),
           ),
         ),
       ],
-      // משנה את צבע כפתור התפריט (ההמבורגר) לזהב
       iconTheme: const IconThemeData(color: AppTheme.goldPrimary),
     );
   }
@@ -53,14 +61,17 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // מאזינים לסטטוס האימות מהפרובידר
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
+
     return Drawer(
       child: Container(
-        color: AppTheme.bgDark, // רקע כהה יוקרתי
+        color: AppTheme.bgDark,
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Column(
             children: [
-              // ראש התפריט - מציג כעת את הלוגו בעיצוב נקי
               DrawerHeader(
                 decoration: BoxDecoration(
                   border: Border(
@@ -72,7 +83,7 @@ class CustomDrawer extends StatelessWidget {
                 child: Center(
                   child: Image.asset(
                     'assets/images/logo.png',
-                    height: 90, // גובה מעט גדול יותר עבור ה-Drawer
+                    height: 90,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -83,14 +94,28 @@ class CustomDrawer extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    _createDrawerItem(
-                      Icons.home,
-                      'דף הבית',
-                      () => Navigator.pushReplacementNamed(context, '/home'),
-                    ),
-                    _createDrawerItem(Icons.favorite, 'מועדפים', () {
-                      // בהמשך נפנה לדף SQLite
+                    _createDrawerItem(Icons.home, 'דף הבית', () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        // שימוש ב-Replacement למניעת כפילויות היסטוריית ניווט
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
                     }),
+
+                    // המועדפים יוצגו רק למי שמחובר
+                    if (user != null)
+                      _createDrawerItem(Icons.favorite, 'מועדפים', () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FavoritesScreen(),
+                          ),
+                        );
+                      }),
 
                     const Divider(color: Colors.white24),
                     const Padding(
@@ -106,18 +131,62 @@ class CustomDrawer extends StatelessWidget {
                         ),
                       ),
                     ),
-                    _createDrawerItem(Icons.directions_car, 'כל הרכבים', () {}),
-                    _createDrawerItem(Icons.auto_awesome, 'רכבי אספנות', () {}),
-                    _createDrawerItem(Icons.star, 'רכבי יוקרה', () {}),
+                    _createDrawerItem(
+                      Icons.directions_car,
+                      'כל הרכבים',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: null,
+                            categoryName: 'כל הרכבים',
+                          ),
+                        ),
+                      ),
+                    ),
+                    _createDrawerItem(
+                      Icons.auto_awesome,
+                      'רכבי אספנות',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: "2",
+                            categoryName: 'רכבי אספנות',
+                          ),
+                        ),
+                      ),
+                    ),
+                    _createDrawerItem(
+                      Icons.star,
+                      'רכבי יוקרה',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: "3",
+                            categoryName: 'רכבי יוקרה',
+                          ),
+                        ),
+                      ),
+                    ),
                     _createDrawerItem(
                       Icons.local_activity,
                       'רכבי אטרקציות',
-                      () {},
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CarsScreen(
+                            categoryId: "1",
+                            categoryName: 'רכבי אטרקציות',
+                          ),
+                        ),
+                      ),
                     ),
 
                     const Divider(color: Colors.white24),
                     _createDrawerItem(Icons.info, 'עלינו', () {
-                      Navigator.pop(context); // סוגר את התפריט הצידי
+                      Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -126,146 +195,62 @@ class CustomDrawer extends StatelessWidget {
                       );
                     }),
                     _createDrawerItem(Icons.contact_phone, 'צור קשר', () {
-                      Navigator.pop(context); // סוגר את הדראוור קודם כל
-
-                      // פותח חלונית יוקרתית מלמטה עם פרטי הקשר
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: AppTheme.bgDark,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        builder: (context) {
-                          return Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min, // שהחלון יתאים בדיוק לגובה התוכן
-                                children: [
-                                  // פס סימון קטן בראש החלונית
-                                  Container(
-                                    width: 40,
-                                    height: 4,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white24,
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    'Drive Go — זמינים עבורך',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const Text(
-                                    'נשמח לעמוד לשירותך בכל שאלה או בקשה',
-                                    style: TextStyle(
-                                      color: Colors.white54,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 25),
-
-                                  // כפתור חיוג מהיר
-                                  _buildActionContactRow(
-                                    icon: Icons.phone,
-                                    title: 'חייג אלינו',
-                                    subtitle: '050-303-5052',
-                                    urlScheme: 'tel:0503035052',
-                                  ),
-                                  const Divider(
-                                    color: Colors.white12,
-                                    height: 20,
-                                  ),
-
-                                  // כפתור שליחת מייל
-                                  _buildActionContactRow(
-                                    icon: Icons.email,
-                                    title: 'שלח אימייל',
-                                    subtitle: 'info@drivego.co.il',
-                                    urlScheme: 'mailto:info@drivego.co.il',
-                                  ),
-                                  const Divider(
-                                    color: Colors.white12,
-                                    height: 20,
-                                  ),
-
-                                  // שעות פעילות (טקסט בלבד)
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.05),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Icon(
-                                          Icons.access_time,
-                                          color: AppTheme.goldPrimary,
-                                          size: 22,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
-                                      const Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'שעות פעילות',
-                                            style: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            'א׳-ה׳ 09:00 - 18:00',
-                                            style: TextStyle(
-                                              color: Colors.white38,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                      Navigator.pop(context);
+                      _showContactBottomSheet(context);
                     }),
 
                     const Divider(color: Colors.white24),
-                    _createDrawerItem(
-                      Icons.login,
-                      'כניסה',
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInScreen(),
+
+                    // ניהול דינמי של כפתורי כניסה/הרשמה/התנתקות לפי מצב המשתמש
+                    if (user == null) ...[
+                      _createDrawerItem(
+                        Icons.login,
+                        'כניסה',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
                         ),
                       ),
-                    ),
-                    _createDrawerItem(
-                      Icons.person_add,
-                      'הרשמה',
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignUpScreen(),
+                      _createDrawerItem(
+                        Icons.person_add,
+                        'הרשמה',
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
                         ),
                       ),
-                    ),
+                    ] else ...[
+                      // תצוגת פאנל ניהול להוספת רכב - גלויה רק לאדמינים מחוברים!
+                      if (user != null && user.isAdmin == true) ...[
+                        const Divider(
+                          color: AppTheme.goldPrimary,
+                          thickness: 0.3,
+                        ),
+                        _createDrawerItem(
+                          Icons.add_business,
+                          'הוספת רכב חדש (אדמין)',
+                          () {
+                            Navigator.pop(context); // סגירת התפריט
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AddCarScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                      _createDrawerItem(Icons.logout, 'התנתקות', () async {
+                        await authProvider.signOut();
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      }),
+                    ],
                   ],
                 ),
               ),
@@ -276,7 +261,6 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  // פונקציית עזר ליצירת שורה בתפריט בעיצוב אחיד
   Widget _createDrawerItem(IconData icon, String text, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: AppTheme.goldPrimary),
@@ -288,7 +272,102 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  // ============== המתודה שהייתה חסרה הוכנסה לכאן בהצלחה! ==============
+  void _showContactBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppTheme.bgDark,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white24,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Drive Go — זמינים עבורך',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'נשמח לעמוד לשירותך בכל שאלה או בקשה',
+                  style: TextStyle(color: Colors.white54, fontSize: 14),
+                ),
+                const SizedBox(height: 25),
+                _buildActionContactRow(
+                  icon: Icons.phone,
+                  title: 'חייג אלינו',
+                  subtitle: '050-303-5052',
+                  urlScheme: 'tel:0503035052',
+                ),
+                const Divider(color: Colors.white12, height: 20),
+                _buildActionContactRow(
+                  icon: Icons.email,
+                  title: 'שלח אימייל',
+                  subtitle: 'info@drivego.co.il',
+                  urlScheme: 'mailto:info@drivego.co.il',
+                ),
+                const Divider(color: Colors.white12, height: 20),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.05),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.access_time,
+                        color: AppTheme.goldPrimary,
+                        size: 22,
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'שעות פעילות',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 2),
+                        Text(
+                          'א׳-ה׳ 09:00 - 18:00',
+                          style: TextStyle(color: Colors.white38, fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildActionContactRow({
     required IconData icon,
     required String title,
@@ -319,13 +398,27 @@ class CustomDrawer extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 2),
-                Text(subtitle, style: const TextStyle(color: Colors.white54, fontSize: 13)),
+                Text(
+                  subtitle,
+                  style: const TextStyle(color: Colors.white54, fontSize: 13),
+                ),
               ],
             ),
             const Spacer(),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white24, size: 14),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white24,
+              size: 14,
+            ),
           ],
         ),
       ),

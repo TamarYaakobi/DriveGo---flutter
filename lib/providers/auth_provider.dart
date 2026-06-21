@@ -50,4 +50,22 @@ class AuthProvider with ChangeNotifier {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  Future<String?> signIn({
+  required String email,
+  required String password,
+}) async {
+  try {
+    await _auth.signInWithEmailAndPassword(
+      email: email.trim(),
+      password: password.trim(),
+    );
+
+    return null; 
+  } on FirebaseAuthException catch (e) {
+    return e.message;
+  } catch (e) {
+    return 'שגיאה לא צפויה';
+  }
+}
 }

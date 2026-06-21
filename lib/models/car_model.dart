@@ -49,4 +49,17 @@ class Car {
       'description': description,
     };
   }
+  
+  factory Car.fromSQLiteMap(Map<String, dynamic> map) {
+    return Car(
+      id: map['id'] as String,
+      name: map['name'] as String,
+      year: map['year'] as int,
+      seats: map['seats'] as int,
+      imageUrl: map['imageUrl'] as String,
+      companyId: map['companyId'] as String,
+      categoryId: map['categoryId'] as String,
+      description: map['description'] as String,
+    );
+  }
 }
