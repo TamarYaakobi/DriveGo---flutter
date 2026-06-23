@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/review_model.dart';
 import '../providers/reviews_provider.dart';
-import '../providers/auth_provider.dart'; // ודא שזה הנתיב הנכון ל-AuthProvider שלך
+import '../providers/auth_provider.dart'; 
 import '../theme/app_theme.dart';
 import '../widgets/custom_nav_bar.dart';
 
@@ -39,12 +39,10 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
     super.dispose();
   }
 
-  // פונקציה המטפלת בלחיצה על כפתור הוספת ביקורת עם בדיקות מקדימות
   void _handleNewReviewClick(
     ReviewsProvider reviewsProvider,
     AuthProvider authProvider,
   ) {
-    // 1. בדיקה האם המשתמש בכלל מחובר (אינו אורח)
     if (authProvider.user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -56,7 +54,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
 
     final user = authProvider.user!;
 
-    // 2. בדיקה האם מדובר במנהל
     if (user.isAdmin == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("מנהל מערכת אינו יכול להוסיף חוות דעת")),
@@ -64,7 +61,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       return;
     }
 
-    // 3. בדיקה מראש האם המשתמש כבר הוסיף חוות דעת לרכב זה
     bool alreadyReviewed = reviewsProvider.reviews.any(
       (r) => r.userId == user.id,
     );
@@ -77,7 +73,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
       return;
     }
 
-    // אם הכל תקין - נפתח את הדיאלוג
     _showAddReviewDialog(reviewsProvider, user);
   }
 
@@ -226,7 +221,6 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // כפתור תמיד יוצג, והסינון יתבצע בצורה חכמה בלחיצה
                         TextButton.icon(
                           onPressed: () => _handleNewReviewClick(
                             reviewsProvider,

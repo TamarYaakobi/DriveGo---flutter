@@ -10,19 +10,16 @@ class AboutUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.bgDark,
-      // משתמשים בבר העליון המשותף והלוגו שכבר בנית!
       appBar: const CustomNavBar(),
       drawer: const CustomDrawer(),
       body: Directionality(
-        textDirection: TextDirection.rtl, // תמיכה מלאה בעברית
+        textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // ================= SECTION 1: HERO SECTION =================
               Container(
                 width: double.infinity,
-                height:
-                    MediaQuery.of(context).size.height * 0.35, // 35% מגובה המסך
+                height: MediaQuery.of(context).size.height * 0.35,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
@@ -67,7 +64,6 @@ class AboutUsScreen extends StatelessWidget {
                 ),
               ),
 
-              // ================= SECTION 2: OUR STORY =================
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
@@ -92,7 +88,6 @@ class AboutUsScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    // קו הזהב היוקרתי מה-SCSS
                     Container(
                       width: 50,
                       height: 3,
@@ -126,7 +121,6 @@ class AboutUsScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // תמונת פנים הרכב היוקרתית עם פינות מעוגלות וצל
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
@@ -153,7 +147,6 @@ class AboutUsScreen extends StatelessWidget {
                 ),
               ),
 
-              // ================= SECTION 3: VALUES =================
               Container(
                 width: double.infinity,
                 color: Colors.white.withOpacity(0.02),
@@ -198,7 +191,6 @@ class AboutUsScreen extends StatelessWidget {
                 ),
               ),
 
-              // ================= SECTION 4: CTA BUTTON =================
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
@@ -236,7 +228,6 @@ class AboutUsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 30),
 
-                    // כפתור הזהב המעוצב
                     _buildGoldButton(
                       text: 'לצפייה בצי הרכבים שלנו',
                       onPressed: () => Navigator.push(
@@ -259,7 +250,6 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  // ווידג'ט עזר פנימי לבניית כרטיסי הערכים
   Widget _buildValueCard(String number, String title, String description) {
     return Container(
       width: double.infinity,
@@ -307,7 +297,6 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  // ווידג'ט עזר לכפתור הזהב היוקרתי
   Widget _buildGoldButton({
     required String text,
     required VoidCallback onPressed,

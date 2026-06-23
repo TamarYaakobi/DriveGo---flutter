@@ -21,7 +21,6 @@ class Car {
     required this.description,
   });
 
-  // שליפה מתוך Firebase Firestore
   factory Car.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Car(
@@ -36,7 +35,6 @@ class Car {
     );
   }
 
-  // המרה ל-Map עבור שמירה ב-SQLite (כשמישהו לוחץ על הלב/מועדפים)
   Map<String, dynamic> toSQLiteMap() {
     return {
       'id': id,

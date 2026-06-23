@@ -17,10 +17,9 @@ class UserModel {
     this.isAdmin = false,
   });
 
-  // יצירת אובייקט משתמש מתוך נתונים שחזרו מ-Firestore
   factory UserModel.fromMap(String documentId, Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? documentId, // לוקח את ה-id מתוך השדות או מה-Document ID
+      id: map['id'] ?? documentId, 
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
       email: map['email'] ?? '',
@@ -30,7 +29,6 @@ class UserModel {
     );
   }
 
-  // המרה ל-Map במידה ונרצה לעדכן או לשמור נתונים בעתיד
   Map<String, dynamic> toMap() {
     return {
       'id': id,

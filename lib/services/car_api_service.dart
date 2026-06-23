@@ -8,7 +8,6 @@ class CarApiService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  // 1. פנייה ל-API הרשמי של NHTSA לקבלת רשימת דגמים לפי יצרן ושנה (בשביל ה-Auto-Complete)
   Future<List<String>> getModelsForMakeAndYear(String make, int year) async {
     final url = Uri.parse(
       'https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeYear/make/$make/modelyear/$year?format=json',
@@ -27,30 +26,24 @@ class CarApiService {
     return [];
   }
 
-  // 2. העלאת תמונה ל-Firebase Storage וקבלת ה-URL הציבורי שלה
-  // 2. העלאת תמונה ל-Firebase Storage וקבלת ה-URL הציבורי שלה
   Future<String> uploadCarImage(File imageFile, String carName) async {
     try {
-      // 1. ניקוי שם הרכב מתווים בעייתיים
       final safeFileName = carName
           .replaceAll(RegExp(r'[^\w\s\-]'), '')
           .trim()
           .replaceAll(' ', '_');
       final timestamp = DateTime.now().millisecondsSinceEpoch;
 
-      // 2. יצירת ההפניה המדויקת לקובץ
       final Reference storageRef = _storage
           .ref()
           .child('cars')
           .child('${safeFileName}_$timestamp.jpg');
 
-      // 3. הגדרת המטא-דאטה בצורה מפורשת
       final metadata = SettableMetadata(
         contentType: 'image/jpeg',
         customMetadata: {'picked_at': DateTime.now().toIso8601String()},
       );
 
-      // 4. הפעלת משימת ההעלאה והמתנה מלאה לסיומה
       UploadTask uploadTask = storageRef.putFile(imageFile, metadata);
 
       TaskSnapshot snapshot = await uploadTask;
@@ -66,7 +59,6 @@ class CarApiService {
     }
   }
 
-  // 3. שמירת הרכב החדש ב-Firestore
   Future<void> saveCarToFirestore({
     required String name,
     required int year,

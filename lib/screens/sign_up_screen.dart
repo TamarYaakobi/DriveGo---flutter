@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../theme/app_theme.dart';
-import '../services/prefs_service.dart'; // ייבוא של שירות ה-Preferences
+import '../services/prefs_service.dart'; 
 import 'sign_in_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -13,10 +13,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // מפתח לניהול הטופס והולטרציות
   final _formKey = GlobalKey<FormState>();
 
-  // קונטרולרים לשמירת הערכים מהשדות
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _idNumberController = TextEditingController();
@@ -29,7 +27,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    // שחרור זיכרון
     _firstNameController.dispose();
     _lastNameController.dispose();
     _idNumberController.dispose();
@@ -39,14 +36,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  // פונקציית ההרשמה מול Firebase
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     try {
-      // 1. אם המשתמש סימן שהוא מנהל, נבדוק את הסיסמה מול Firestore (מסמך '1')
       if (_isAdmin) {
         final adminConfigDoc = await FirebaseFirestore.instance
             .collection('system_settings')
@@ -56,7 +51,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (adminConfigDoc.exists) {
           final dbAdminPassword = adminConfigDoc.data()?['adminPassword'];
           
-          // השוואה בין מה שהמשתמש הקליד למה ששמור בבסיס הנתונים
           if (_adminPasswordController.text != dbAdminPassword) {
             setState(() => _isLoading = false);
             ScaffoldMessenger.of(context).showSnackBar(
@@ -65,21 +59,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 backgroundColor: Colors.red,
               ),
             );
-            return; // עוצר את ההרשמה מיד
+            return; 
           }
         } else {
           throw Exception("הגדרות מערכת לא נמצאו בשרת");
         }
       }
 
-      // 2. יצירת המשתמש ב-Firebase Authentication
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );
 
-      // 3. שמירת הנתונים הנוספים ב-Cloud Firestore
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user!.uid)
@@ -88,11 +80,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'lastName': _lastNameController.text.trim(),
             'idNumber': _idNumberController.text.trim(),
             'email': _emailController.text.trim(),
-            'isAdmin': _isAdmin, // יישמר כ-true רק אם הוא עבר את הבדיקה למעלה!
+            'isAdmin': _isAdmin,
             'createdAt': FieldValue.serverTimestamp(),
           });
 
-      // 4. שמירת מצב ההתחברות מקומית במכשיר למניעת התנתקות
       await PrefsService.saveBool('is_logged_in', true);
       await PrefsService.saveString('user_email', _emailController.text.trim());
       await PrefsService.saveString('user_name', '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}');
@@ -104,7 +95,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        // איפוס הנתב ומעבר ישר לדף הבית הראשי של האפליקציה
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
     } on FirebaseAuthException catch (e) {
@@ -170,7 +160,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Container(width: 50, height: 2, color: AppTheme.goldPrimary),
                 const SizedBox(height: 30),
 
-                // שורה של שם פרטי ושם משפחה
                 Row(
                   children: [
                     Expanded(
@@ -204,7 +193,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // תעודת זהות
                 TextFormField(
                   controller: _idNumberController,
                   style: const TextStyle(color: Colors.white),
@@ -224,7 +212,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // אימייל
                 TextFormField(
                   controller: _emailController,
                   style: const TextStyle(color: Colors.white),
@@ -243,7 +230,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // סיסמה
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
@@ -258,7 +244,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // תיבת סימון מנהל מערכת (Checkbox)
                 Theme(
                   data: ThemeData(unselectedWidgetColor: Colors.white54),
                   child: CheckboxListTile(
@@ -280,7 +265,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
 
-                // שדה סיסמת מנהל מותנה
                 if (_isAdmin) ...[
                   const SizedBox(height: 10),
                   TextFormField(
@@ -304,7 +288,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
                 const SizedBox(height: 35),
 
-                // כפתור שליחה
                 Container(
                   width: double.infinity,
                   height: 50,
@@ -332,7 +315,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // מעבר למסך התחברות
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacement(

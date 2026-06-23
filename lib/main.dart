@@ -4,10 +4,10 @@ import 'package:drive_go/providers/reviews_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart'; // <-- 1. חובה לייבא את חבילת הפרובידר
+import 'package:provider/provider.dart';
 import './theme/app_theme.dart';
 import './screens/home_screen.dart';
-import 'providers/cars_provider.dart'; // <-- 2. מייבאים את הפרובידר שיצרנו מקודם
+import 'providers/cars_provider.dart';
 import 'firebase_options.dart';
 import 'dart:io';
 
@@ -24,7 +24,6 @@ void main() async {
     host: 'firestore.googleapis.com',
   );
 
-  // 3. עוטפים את כל האפליקציה ב-MultiProvider
   runApp(
     MultiProvider(
       providers: [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // הגדרת קבועי צבעים לשימוש קל
   static const Color bgDark = Color(0xFF0F0F11);
   static const Color bgCard = Color(0xFF1A1A1E);
   static const Color goldPrimary = Color(0xFFD4AF37);

@@ -16,22 +16,19 @@ class _AddCarScreenState extends State<AddCarScreen> {
   final _formKey = GlobalKey<FormState>();
   final _apiService = CarApiService();
 
-  // קונטרולרים
   final _makeController = TextEditingController();
   final _seatsController = TextEditingController();
   final _descriptionController = TextEditingController();
 
-  // משתני בחירה
   int _selectedYear = DateTime.now().year;
   String? _selectedModel;
-  String? _selectedCategory; // 1 = אטרקציות, 2 = אספנות, 3 = יוקרה
+  String? _selectedCategory; 
   File? _selectedImage;
   
   bool _isLoading = false;
   bool _isFetchingModels = false;
   List<String> _availableModels = [];
 
-  // קטגוריות קבועות לפי האפליקציה שלך
   final List<Map<String, String>> _categories = [
     {'id': '3', 'name': 'רכבי יוקרה'},
     {'id': '2', 'name': 'רכבי אספנות'},
@@ -46,7 +43,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
     super.dispose();
   }
 
-  // פונקציה למשיכת דגמים מה-API החיצוני ברגע שמקלידים יצרן ושנה
   Future<void> _fetchModelsFromApi() async {
     if (_makeController.text.trim().isEmpty) return;
     
@@ -73,7 +69,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
     }
   }
 
-  // בחירת תמונה מהגלריה
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
@@ -85,7 +80,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
     }
   }
 
-  // ביצוע תהליך השמירה כולו
   Future<void> _submitData() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedImage == null) {
@@ -106,14 +100,12 @@ class _AddCarScreenState extends State<AddCarScreen> {
     try {
       final fullCarName = "${_makeController.text.trim()} $_selectedModel";
       
-      // 1. העלאת תמונה לשרת (מציב הגנה למקרה והקובץ המקומי לא נגיש)
       if (!await _selectedImage!.exists()) {
         throw Exception("קובץ התמונה המקומי לא נמצא, אנא בחר תמונה שנית.");
       }
       
       final imageUrl = await _apiService.uploadCarImage(_selectedImage!, fullCarName);
 
-      // 2. שמירה ב-Firestore
       await _apiService.saveCarToFirestore(
         name: fullCarName,
         year: _selectedYear,
@@ -168,7 +160,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                     ),
                     const SizedBox(height: 25),
 
-                    // שלב א': בחירת תמונה מעוצבת
                     GestureDetector(
                       onTap: _pickImage,
                       child: Container(
@@ -196,7 +187,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                     ),
                     const SizedBox(height: 25),
 
-                    // שלב ב': שדות יצרן ושנה
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -206,7 +196,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                             controller: _makeController,
                             style: const TextStyle(color: Colors.white),
                             decoration: _inputDecoration('שם היצרן (למשל: BMW)'),
-                            // הפעלת משיכת הדגמים רק כאשר המשתמש מסיים להקליד ומאשר
                             onFieldSubmitted: (_) => _fetchModelsFromApi(),
                             validator: (val) => val == null || val.isEmpty ? 'שדה חובה' : null,
                           ),
@@ -238,7 +227,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    // שלב ג': בחירת דגם מתוך ה-API
                     _isFetchingModels
                         ? const Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
@@ -264,7 +252,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                           ),
                     const SizedBox(height: 20),
 
-                    // שלב ד': קטגוריה וכמות מושבים
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -298,7 +285,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    // שלב ה': תיאור הרכב
                     TextFormField(
                       controller: _descriptionController,
                       maxLines: 4,
@@ -308,7 +294,6 @@ class _AddCarScreenState extends State<AddCarScreen> {
                     ),
                     const SizedBox(height: 35),
 
-                    // כפתור שמירה
                     SizedBox(
                       width: double.infinity,
                       height: 55,

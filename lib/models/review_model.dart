@@ -15,7 +15,6 @@ class Review {
     required this.rating,
   });
 
-  // יצירת אובייקט מתוך Firestore Document
   factory Review.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Review(
@@ -27,7 +26,6 @@ class Review {
     );
   }
 
-  // המרה למפה לצורך שמירה ב-Firestore
   Map<String, dynamic> toFirestore() {
     return {
       'carId': carId,

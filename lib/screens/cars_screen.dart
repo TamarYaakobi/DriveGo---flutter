@@ -8,12 +8,12 @@ import 'car_details_screen.dart';
 
 class CarsScreen extends StatefulWidget {
   final String? categoryId;
-  final String categoryName; // נשאיר אותו כאינטגרלי, אך נשנה את ה-Constructor
+  final String categoryName;
 
   const CarsScreen({
     super.key,
     this.categoryId,
-    this.categoryName = 'כל הרכבים', // ערך ברירת מחדל אם לא מועבר כלום
+    this.categoryName = 'כל הרכבים', 
   });
   @override
   State<CarsScreen> createState() => _CarsScreenState();
@@ -23,7 +23,6 @@ class _CarsScreenState extends State<CarsScreen> {
   @override
   void initState() {
     super.initState();
-    // טעינת רכבים ראשונית בעת כניסה למסך (מקביל ל-useEffect)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CarsProvider>(
         context,
@@ -38,15 +37,14 @@ class _CarsScreenState extends State<CarsScreen> {
 
     return Scaffold(
       backgroundColor: AppTheme.bgDark,
-      appBar: const CustomNavBar(), // הבר הקבוע של האתר
+      appBar: const CustomNavBar(), 
       drawer: const CustomDrawer(),
 
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // יישור טקסט לימין
+          crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
-            // ================= כותרת הדף הנוכחי =================
             Padding(
               padding: const EdgeInsets.only(
                 right: 16.0,
@@ -56,7 +54,7 @@ class _CarsScreenState extends State<CarsScreen> {
               ),
               child: Text(
                 widget
-                    .categoryName, // מציג "כל הרכבים" או את שם הקטגוריה שנבחרה
+                    .categoryName, 
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 22,
@@ -64,13 +62,11 @@ class _CarsScreenState extends State<CarsScreen> {
                 ),
               ),
             ),
-            // ================= אזור סינון (Sliders) =================
             Container(
               padding: const EdgeInsets.all(16),
               color: const Color(0xFF1A1A1E),
               child: Column(
                 children: [
-                  // סינון שנים
                   Row(
                     children: [
                       const Text(
@@ -108,7 +104,6 @@ class _CarsScreenState extends State<CarsScreen> {
                       ),
                     ],
                   ),
-                  // סינון מושבים
                   Row(
                     children: [
                       const Text(
@@ -150,7 +145,6 @@ class _CarsScreenState extends State<CarsScreen> {
               ),
             ),
 
-            // ================= רשימת הרכבים (Grid) =================
             Expanded(
               child: carsProvider.isLoading
                   ? const Center(
@@ -187,11 +181,9 @@ class _CarsScreenState extends State<CarsScreen> {
     );
   }
 
-  // ווידג'ט כרטיס רכב - מקביל ל-CarCard מריאקט
   Widget _buildCarCard(BuildContext context, dynamic car) {
     return InkWell(
       onTap: () {
-        // מעבר לדף פרטי רכב והעברת האובייקט (שווה ערך ל-state בניווט של ריאקט)
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CarDetailsScreen(car: car)),

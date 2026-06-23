@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:drive_go/screens/sign_up_screen.dart';
 import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
-import '../services/prefs_service.dart'; // ייבוא של שירות ה-Preferences
+import '../services/prefs_service.dart'; 
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -33,7 +33,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    // ביצוע ההתחברות דרך ה-AuthProvider שלכם
     final error = await authProvider.signIn(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
@@ -42,7 +41,6 @@ class _SignInScreenState extends State<SignInScreen> {
     if (!mounted) return;
 
     if (error == null) {
-      // אם האימות הצליח, נשמור את מצב ההתחברות מקומית במכשיר
       await PrefsService.saveBool('is_logged_in', true);
       await PrefsService.saveString('user_email', _emailController.text.trim());
 
@@ -50,7 +48,6 @@ class _SignInScreenState extends State<SignInScreen> {
         _isLoading = false;
       });
 
-      // חזרה למסך הראשון (דף הבית)
       Navigator.of(context).popUntil((route) => route.isFirst);
     } else {
       setState(() {

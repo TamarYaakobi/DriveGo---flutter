@@ -6,18 +6,16 @@ import 'package:drive_go/screens/sign_in_screen.dart';
 import 'package:drive_go/screens/home_screen.dart';
 import 'package:drive_go/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // הוספת הפרובידר
-import '../providers/auth_provider.dart'; // ייבוא ה-AuthProvider
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart'; 
 import '../theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// 1. הבר העליון שיופיע בכל דף עם הלוגו במרכז
 class CustomNavBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomNavBar({super.key}); // כבר לא צריך לקבל userName מבחוץ!
+  const CustomNavBar({super.key}); 
 
   @override
   Widget build(BuildContext context) {
-    // שליפת המשתמש הנוכחי מתוך ה-AuthProvider הגלובלי
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
     final String displayTitle = user != null
@@ -55,13 +53,11 @@ class CustomNavBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-// 2. התפריט הצידי שייפתח בלחיצה על כפתור התפריט
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // מאזינים לסטטוס האימות מהפרובידר
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
 
@@ -89,7 +85,6 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
 
-              // רשימת הניווט
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.zero,
@@ -97,7 +92,6 @@ class CustomDrawer extends StatelessWidget {
                     _createDrawerItem(Icons.home, 'דף הבית', () {
                       Navigator.pop(context);
                       Navigator.pushReplacement(
-                        // שימוש ב-Replacement למניעת כפילויות היסטוריית ניווט
                         context,
                         MaterialPageRoute(
                           builder: (context) => const HomeScreen(),
@@ -105,7 +99,6 @@ class CustomDrawer extends StatelessWidget {
                       );
                     }),
 
-                    // המועדפים יוצגו רק למי שמחובר
                     if (user != null)
                       _createDrawerItem(Icons.favorite, 'מועדפים', () {
                         Navigator.pop(context);
@@ -201,7 +194,6 @@ class CustomDrawer extends StatelessWidget {
 
                     const Divider(color: Colors.white24),
 
-                    // ניהול דינמי של כפתורי כניסה/הרשמה/התנתקות לפי מצב המשתמש
                     if (user == null) ...[
                       _createDrawerItem(
                         Icons.login,
@@ -224,7 +216,6 @@ class CustomDrawer extends StatelessWidget {
                         ),
                       ),
                     ] else ...[
-                      // תצוגת פאנל ניהול להוספת רכב - גלויה רק לאדמינים מחוברים!
                       if (user != null && user.isAdmin == true) ...[
                         const Divider(
                           color: AppTheme.goldPrimary,
@@ -234,7 +225,7 @@ class CustomDrawer extends StatelessWidget {
                           Icons.add_business,
                           'הוספת רכב חדש (אדמין)',
                           () {
-                            Navigator.pop(context); // סגירת התפריט
+                            Navigator.pop(context); 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
